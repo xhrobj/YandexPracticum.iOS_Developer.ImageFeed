@@ -8,7 +8,6 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
-    let cellIdentifier = "cell"
     
     // MARK: - @IBOutlets
 
@@ -30,7 +29,15 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
+        
+        guard let imageListCell = cell as? ImagesListCell else {
+            return UITableViewCell()
+        }
+        
+        configureCell(imageListCell)
+        
+        return imageListCell
     }
 }
 
@@ -48,5 +55,9 @@ private extension ImagesListViewController {
     func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
+    }
+    
+    func configureCell(_ cell: ImagesListCell) {
+        
     }
 }
