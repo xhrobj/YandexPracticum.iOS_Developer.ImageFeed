@@ -27,7 +27,50 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RSj-60-4d8" id="bUf-Dt-lbH">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="318"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="z5z-YD-sIE">
+                                                    <rect key="frame" x="0.0" y="0.0" width="393" height="318"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="16"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Te6-c9-ciY" userLabel="Favorites Button">
+                                                    <rect key="frame" x="349" y="0.0" width="44" height="44"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="44" id="6D0-gS-LvI"/>
+                                                        <constraint firstAttribute="width" constant="44" id="hQv-2s-8aM"/>
+                                                    </constraints>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <state key="normal" image="favorites_active"/>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27 августа 2022" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ih-fT-ugj">
+                                                    <rect key="frame" x="8" y="294" width="101.66666666666667" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" name="YP White"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" name="YP Black"/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="8ih-fT-ugj" secondAttribute="bottom" constant="8" id="82b-Ww-wx4"/>
+                                                <constraint firstItem="z5z-YD-sIE" firstAttribute="leading" secondItem="bUf-Dt-lbH" secondAttribute="leading" id="HaR-ui-REX"/>
+                                                <constraint firstAttribute="trailing" secondItem="Te6-c9-ciY" secondAttribute="trailing" id="WZO-ab-Pm9"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="8ih-fT-ugj" secondAttribute="trailing" constant="8" id="XDg-cb-YuD"/>
+                                                <constraint firstAttribute="trailing" secondItem="z5z-YD-sIE" secondAttribute="trailing" id="ayV-Cb-fUu"/>
+                                                <constraint firstItem="Te6-c9-ciY" firstAttribute="top" secondItem="bUf-Dt-lbH" secondAttribute="top" id="cfn-c8-Q4j"/>
+                                                <constraint firstItem="z5z-YD-sIE" firstAttribute="top" secondItem="bUf-Dt-lbH" secondAttribute="top" id="iBc-TG-nWj"/>
+                                                <constraint firstItem="8ih-fT-ugj" firstAttribute="leading" secondItem="bUf-Dt-lbH" secondAttribute="leading" constant="8" id="pOD-6M-QQz"/>
+                                                <constraint firstAttribute="bottom" secondItem="z5z-YD-sIE" secondAttribute="bottom" id="yuz-qd-mTB"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="backgroundImageView" destination="z5z-YD-sIE" id="sXJ-x3-HpW"/>
+                                            <outlet property="dateLabel" destination="8ih-fT-ugj" id="Jxj-7l-43b"/>
+                                            <outlet property="favoritesButton" destination="Te6-c9-ciY" id="6H5-tH-CjS"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -51,8 +94,13 @@
         </scene>
     </scenes>
     <resources>
+        <image name="0" width="200" height="132"/>
+        <image name="favorites_active" width="30" height="27"/>
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="YP White">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
