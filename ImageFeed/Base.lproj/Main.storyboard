@@ -16,13 +16,28 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="NCo-oa-YA0">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <color key="backgroundColor" name="YP Black"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
+                        <constraints>
+                            <constraint firstItem="NCo-oa-YA0" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="D75-ey-F4w"/>
+                            <constraint firstAttribute="bottom" secondItem="NCo-oa-YA0" secondAttribute="bottom" id="L1Y-xQ-p8e"/>
+                            <constraint firstItem="NCo-oa-YA0" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="OgF-mJ-Ea5"/>
+                            <constraint firstAttribute="trailing" secondItem="NCo-oa-YA0" secondAttribute="trailing" id="b1K-oK-GVK"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="NCo-oa-YA0" id="9Y1-4Z-QSO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="30" y="-2"/>
+            <point key="canvasLocation" x="29.770992366412212" y="-2.1126760563380285"/>
         </scene>
     </scenes>
     <resources>
