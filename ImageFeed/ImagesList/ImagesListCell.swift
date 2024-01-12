@@ -12,7 +12,7 @@ final class ImagesListCell: UITableViewCell {
     
     // MARK: - @IBOutlets
     
-    @IBOutlet private var backgroundImageView: UIImageView!
-    @IBOutlet private var dateLabel: UILabel!
-    @IBOutlet private var favoritesButton: UIButton!
+    @IBOutlet var backgroundImageView: UIImageView!
+    @IBOutlet var dateLabel: UILabel!
+    @IBOutlet var favoritesButton: UIButton!
 }
