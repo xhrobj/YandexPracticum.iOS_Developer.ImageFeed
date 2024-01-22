@@ -12,7 +12,17 @@ final class ImagesListCell: UITableViewCell {
     
     // MARK: - @IBOutlets
     
-    @IBOutlet var backgroundImageView: UIImageView!
-    @IBOutlet var dateLabel: UILabel!
-    @IBOutlet var favoritesButton: UIButton!
+    @IBOutlet private var backgroundImageView: UIImageView!
+    @IBOutlet private var dateLabel: UILabel!
+    @IBOutlet private var favoritesButton: UIButton!
+}
+
+// MARK: - Class API
+
+extension ImagesListCell {
+    func configureCell(with backgroundImage: UIImage, dateText: String, favoritesButtonImageName: String) {
+        backgroundImageView.image = backgroundImage
+        dateLabel.text = dateText
+        favoritesButton.setImage(UIImage(named: favoritesButtonImageName), for: .normal)
+    }
 }

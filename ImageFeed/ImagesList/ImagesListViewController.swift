@@ -83,11 +83,10 @@ private extension ImagesListViewController {
     func configureCell(_ cell: ImagesListCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: photoImageName(for: indexPath)) else { return }
         
-        cell.backgroundImageView.image = image
-        cell.dateLabel.text = dateFormatter.string(from: Date())
-        cell.favoritesButton.setImage(
-            UIImage(named: favoritesButtonImageName(for: indexPath)),
-            for: .normal
+        cell.configureCell(
+            with: image,
+            dateText: dateFormatter.string(from: Date()),
+            favoritesButtonImageName: favoritesButtonImageName(for: indexPath)
         )
     }
     
