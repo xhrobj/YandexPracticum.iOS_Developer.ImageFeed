@@ -14,6 +14,7 @@
 		6F0DBD002B4D9E0400013F72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6F0DBCFF2B4D9E0400013F72 /* Assets.xcassets */; };
 		6F0DBD032B4D9E0400013F72 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F0DBD012B4D9E0400013F72 /* LaunchScreen.storyboard */; };
 		6F0DBD0C2B50730600013F72 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0DBD0B2B50730600013F72 /* ImagesListCell.swift */; };
+		6FC545F22CD14EC2008DFB5C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC545F12CD14EC2008DFB5C /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		6F0DBD022B4D9E0400013F72 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6F0DBD042B4D9E0400013F72 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F0DBD0B2B50730600013F72 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		6FC545F12CD14EC2008DFB5C /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 		6F0DBCF52B4D9E0300013F72 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				6FC545F32CD1525D008DFB5C /* Profile */,
 				6F0DBD0D2B50736100013F72 /* ImagesList */,
 				6F0DBCFC2B4D9E0300013F72 /* Main.storyboard */,
 				6F0DBD0A2B4DC7E400013F72 /* Resources */,
@@ -84,6 +87,14 @@
 				6F0DBD0B2B50730600013F72 /* ImagesListCell.swift */,
 			);
 			path = ImagesList;
+			sourceTree = "<group>";
+		};
+		6FC545F32CD1525D008DFB5C /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				6FC545F12CD14EC2008DFB5C /* ProfileViewController.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,6 +168,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FC545F22CD14EC2008DFB5C /* ProfileViewController.swift in Sources */,
 				6F0DBCFB2B4D9E0300013F72 /* ImagesListViewController.swift in Sources */,
 				6F0DBD0C2B50730600013F72 /* ImagesListCell.swift in Sources */,
 				6F0DBCF72B4D9E0300013F72 /* AppDelegate.swift in Sources */,
