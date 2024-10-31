@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TLa-MW-5HP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5lZ-kM-Mwk">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="NCo-oa-YA0">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="NCo-oa-YA0">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <color key="backgroundColor" name="YP Black"/>
                                 <prototypes>
@@ -70,6 +70,7 @@
                                             <outlet property="backgroundImageView" destination="z5z-YD-sIE" id="sXJ-x3-HpW"/>
                                             <outlet property="dateLabel" destination="8ih-fT-ugj" id="Jxj-7l-43b"/>
                                             <outlet property="favoritesButton" destination="Te6-c9-ciY" id="6H5-tH-CjS"/>
+                                            <segue destination="TLa-MW-5HP" kind="show" id="Kd3-rL-5gj"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -102,7 +103,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="PQI-x6-MoN">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ZM7-Jn-Ew0"/>
@@ -114,6 +115,7 @@
                             <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="trailing" secondItem="PQI-x6-MoN" secondAttribute="trailing" id="u4O-DD-Zva"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="sUR-xE-zwO"/>
                     <connections>
                         <outlet property="imageView" destination="PQI-x6-MoN" id="jay-1d-yB5"/>
                     </connections>
