@@ -14,6 +14,12 @@ final class SingleImageViewController: UIViewController {
     
     @IBOutlet private var imageView: UIImageView!
     
+    // MARK: - @IBActions
+    
+    @IBAction func backButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
