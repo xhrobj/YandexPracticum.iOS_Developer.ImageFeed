@@ -114,7 +114,7 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="rXP-Q4-pLX"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="DSc-p7-Wea"/>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CZi-IL-e4v">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CZi-IL-e4v" userLabel="Back Button">
                                 <rect key="frame" x="-1" y="-1" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Yzf-NI-mER"/>
@@ -126,6 +126,18 @@
                                     <action selector="backButtonTapped" destination="TLa-MW-5HP" eventType="touchUpInside" id="VM4-XT-IcN"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Taf-OD-Jf2" userLabel="Share Button">
+                                <rect key="frame" x="171" y="751" width="51" height="51"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="51" id="d23-WF-NvN"/>
+                                    <constraint firstAttribute="width" constant="51" id="ot4-73-TJB"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="share"/>
+                                <connections>
+                                    <action selector="shareButtonTapped" destination="TLa-MW-5HP" eventType="touchUpInside" id="jWf-wK-0fc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ZM7-Jn-Ew0"/>
                         <color key="backgroundColor" name="YP Black"/>
@@ -134,6 +146,8 @@
                             <constraint firstItem="rrZ-v3-8qc" firstAttribute="bottom" secondItem="ZM7-Jn-Ew0" secondAttribute="bottom" id="3tJ-NE-Vxk"/>
                             <constraint firstItem="rrZ-v3-8qc" firstAttribute="trailing" secondItem="ZM7-Jn-Ew0" secondAttribute="trailing" id="7cg-W5-ocu"/>
                             <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="leading" secondItem="rrZ-v3-8qc" secondAttribute="leading" id="DEr-fP-86i"/>
+                            <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="bottom" secondItem="Taf-OD-Jf2" secondAttribute="bottom" constant="50" id="Qy1-ak-JVZ"/>
+                            <constraint firstItem="Taf-OD-Jf2" firstAttribute="centerX" secondItem="ZM7-Jn-Ew0" secondAttribute="centerX" id="U2R-sr-IiV"/>
                             <constraint firstItem="CZi-IL-e4v" firstAttribute="leading" secondItem="ZM7-Jn-Ew0" secondAttribute="leading" constant="-1" id="ZmI-a4-kOQ"/>
                             <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="top" secondItem="rrZ-v3-8qc" secondAttribute="top" id="dZv-o0-9ub"/>
                         </constraints>
@@ -252,6 +266,7 @@
         <image name="exit" width="24" height="24"/>
         <image name="favorites_active" width="30" height="27"/>
         <image name="nav_back" width="24" height="24"/>
+        <image name="share" width="51" height="51"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <image name="tab_profile_active" width="30" height="30"/>
         <image name="user_avatar" width="350" height="350"/>

@@ -10,9 +10,9 @@ import UIKit
 final class SingleImageViewController: UIViewController {
     var image: UIImage? {
         didSet {
-            guard isViewLoaded, let image else { return }
+            guard isViewLoaded else { return }
 
-            
+            configureImageView()
         }
     }
     
@@ -25,6 +25,10 @@ final class SingleImageViewController: UIViewController {
     
     @IBAction func backButtonTapped() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func shareButtonTapped() {
+        // nop
     }
     
     // MARK: - View lifecycle
