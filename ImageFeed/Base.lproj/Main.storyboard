@@ -103,9 +103,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="PQI-x6-MoN">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                            </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rrZ-v3-8qc">
+                                <rect key="frame" x="-20" y="-20" width="433" height="892"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="PQI-x6-MoN">
+                                        <rect key="frame" x="20" y="20" width="393" height="852"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <viewLayoutGuide key="contentLayoutGuide" id="rXP-Q4-pLX"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="DSc-p7-Wea"/>
+                            </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CZi-IL-e4v">
                                 <rect key="frame" x="-1" y="-1" width="44" height="44"/>
                                 <constraints>
@@ -123,16 +131,17 @@
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
                             <constraint firstItem="CZi-IL-e4v" firstAttribute="top" secondItem="ZM7-Jn-Ew0" secondAttribute="top" constant="-1" id="08X-jY-oVa"/>
-                            <constraint firstItem="PQI-x6-MoN" firstAttribute="leading" secondItem="ZM7-Jn-Ew0" secondAttribute="leading" id="KKH-bV-YHH"/>
-                            <constraint firstItem="PQI-x6-MoN" firstAttribute="top" secondItem="ZM7-Jn-Ew0" secondAttribute="top" id="Py4-aA-5zU"/>
+                            <constraint firstItem="rrZ-v3-8qc" firstAttribute="bottom" secondItem="ZM7-Jn-Ew0" secondAttribute="bottom" id="3tJ-NE-Vxk"/>
+                            <constraint firstItem="rrZ-v3-8qc" firstAttribute="trailing" secondItem="ZM7-Jn-Ew0" secondAttribute="trailing" id="7cg-W5-ocu"/>
+                            <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="leading" secondItem="rrZ-v3-8qc" secondAttribute="leading" id="DEr-fP-86i"/>
                             <constraint firstItem="CZi-IL-e4v" firstAttribute="leading" secondItem="ZM7-Jn-Ew0" secondAttribute="leading" constant="-1" id="ZmI-a4-kOQ"/>
-                            <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="bottom" secondItem="PQI-x6-MoN" secondAttribute="bottom" id="ty7-46-DTH"/>
-                            <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="trailing" secondItem="PQI-x6-MoN" secondAttribute="trailing" id="u4O-DD-Zva"/>
+                            <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="top" secondItem="rrZ-v3-8qc" secondAttribute="top" id="dZv-o0-9ub"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="sUR-xE-zwO"/>
                     <connections>
-                        <outlet property="imageView" destination="PQI-x6-MoN" id="jay-1d-yB5"/>
+                        <outlet property="imageScrollView" destination="rrZ-v3-8qc" id="Twt-J9-juU"/>
+                        <outlet property="imageView" destination="PQI-x6-MoN" id="l06-Hp-CPY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sps-eG-3V1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
