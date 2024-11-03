@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -177,6 +178,7 @@
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="3yg-j5-9vh"/>
                         <segue destination="5cb-si-TsV" kind="relationship" relationship="viewControllers" id="yrc-2u-p5i"/>
+                        <segue destination="UgE-GJ-B7E" kind="relationship" relationship="viewControllers" id="xMe-Ud-xKs"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FRZ-My-K0O" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -260,6 +262,22 @@
             </objects>
             <point key="canvasLocation" x="-393" y="1108"/>
         </scene>
+        <!--Item-->
+        <scene sceneID="Am5-yk-mfm">
+            <objects>
+                <viewController id="UgE-GJ-B7E" customClass="Profile2ViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="khc-4u-FHj">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="e1d-tz-0Ns"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="ehE-OY-OHA"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OAN-TV-RXm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="480" y="1461"/>
+        </scene>
     </scenes>
     <resources>
         <image name="0" width="200" height="132"/>
@@ -276,5 +294,8 @@
         <namedColor name="YP White">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
