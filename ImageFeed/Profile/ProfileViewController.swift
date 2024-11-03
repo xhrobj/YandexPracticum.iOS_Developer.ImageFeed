@@ -8,7 +8,6 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
-    
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage())
         imageView.translatesAutoresizingMaskIntoConstraints = false

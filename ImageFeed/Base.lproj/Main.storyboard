@@ -128,7 +128,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Taf-OD-Jf2" userLabel="Share Button">
-                                <rect key="frame" x="171" y="751" width="51" height="51"/>
+                                <rect key="frame" x="171" y="785" width="51" height="51"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="51" id="d23-WF-NvN"/>
                                     <constraint firstAttribute="width" constant="51" id="ot4-73-TJB"/>
@@ -147,7 +147,7 @@
                             <constraint firstItem="rrZ-v3-8qc" firstAttribute="bottom" secondItem="ZM7-Jn-Ew0" secondAttribute="bottom" id="3tJ-NE-Vxk"/>
                             <constraint firstItem="rrZ-v3-8qc" firstAttribute="trailing" secondItem="ZM7-Jn-Ew0" secondAttribute="trailing" id="7cg-W5-ocu"/>
                             <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="leading" secondItem="rrZ-v3-8qc" secondAttribute="leading" id="DEr-fP-86i"/>
-                            <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="bottom" secondItem="Taf-OD-Jf2" secondAttribute="bottom" constant="50" id="Qy1-ak-JVZ"/>
+                            <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="bottom" secondItem="Taf-OD-Jf2" secondAttribute="bottom" constant="16" id="Qy1-ak-JVZ"/>
                             <constraint firstItem="Taf-OD-Jf2" firstAttribute="centerX" secondItem="ZM7-Jn-Ew0" secondAttribute="centerX" id="U2R-sr-IiV"/>
                             <constraint firstItem="CZi-IL-e4v" firstAttribute="leading" secondItem="ZM7-Jn-Ew0" secondAttribute="leading" constant="-1" id="ZmI-a4-kOQ"/>
                             <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="top" secondItem="rrZ-v3-8qc" secondAttribute="top" id="dZv-o0-9ub"/>
