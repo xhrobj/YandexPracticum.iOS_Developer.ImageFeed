@@ -75,7 +75,7 @@ private extension SingleImageViewController {
         let visibleRectSize = imageScrollView.bounds.size
         let hScale = visibleRectSize.width / imageSize.width
         let vScale = visibleRectSize.height / imageSize.height
-        let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
+        let scale = min(maxZoomScale, max(minZoomScale, max(hScale, vScale)))
 
         imageScrollView.setZoomScale(scale, animated: false)
         imageScrollView.layoutIfNeeded()
