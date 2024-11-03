@@ -28,7 +28,10 @@ final class SingleImageViewController: UIViewController {
     }
     
     @IBAction func shareButtonTapped() {
-        // nop
+        guard let image else { return }
+
+        let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        present(activityViewController, animated: true, completion: nil)
     }
     
     // MARK: - View lifecycle
