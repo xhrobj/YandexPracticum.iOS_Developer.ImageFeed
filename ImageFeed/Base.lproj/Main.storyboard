@@ -105,10 +105,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rrZ-v3-8qc">
-                                <rect key="frame" x="-20" y="-20" width="433" height="892"/>
+                                <rect key="frame" x="0.0" y="-1" width="393" height="853"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="PQI-x6-MoN">
-                                        <rect key="frame" x="20" y="20" width="393" height="852"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="248" height="323"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
@@ -144,13 +144,13 @@
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
                             <constraint firstItem="CZi-IL-e4v" firstAttribute="top" secondItem="ZM7-Jn-Ew0" secondAttribute="top" constant="-1" id="08X-jY-oVa"/>
-                            <constraint firstItem="rrZ-v3-8qc" firstAttribute="bottom" secondItem="ZM7-Jn-Ew0" secondAttribute="bottom" id="3tJ-NE-Vxk"/>
+                            <constraint firstItem="rrZ-v3-8qc" firstAttribute="top" secondItem="L8d-gp-S2t" secondAttribute="top" id="5ze-0r-pqk"/>
                             <constraint firstItem="rrZ-v3-8qc" firstAttribute="trailing" secondItem="ZM7-Jn-Ew0" secondAttribute="trailing" id="7cg-W5-ocu"/>
                             <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="leading" secondItem="rrZ-v3-8qc" secondAttribute="leading" id="DEr-fP-86i"/>
+                            <constraint firstAttribute="bottom" secondItem="rrZ-v3-8qc" secondAttribute="bottom" id="Mzx-8C-jyT"/>
                             <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="bottom" secondItem="Taf-OD-Jf2" secondAttribute="bottom" constant="16" id="Qy1-ak-JVZ"/>
                             <constraint firstItem="Taf-OD-Jf2" firstAttribute="centerX" secondItem="ZM7-Jn-Ew0" secondAttribute="centerX" id="U2R-sr-IiV"/>
                             <constraint firstItem="CZi-IL-e4v" firstAttribute="leading" secondItem="ZM7-Jn-Ew0" secondAttribute="leading" constant="-1" id="ZmI-a4-kOQ"/>
-                            <constraint firstItem="ZM7-Jn-Ew0" firstAttribute="top" secondItem="rrZ-v3-8qc" secondAttribute="top" id="dZv-o0-9ub"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="sUR-xE-zwO"/>
@@ -161,7 +161,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sps-eG-3V1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1418" y="315"/>
+            <point key="canvasLocation" x="1417.5572519083969" y="314.78873239436621"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Ga1-Bu-Tkb">

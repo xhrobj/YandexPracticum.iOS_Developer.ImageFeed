@@ -29,13 +29,13 @@ final class SingleImageViewController: UIViewController {
     }
     
     // MARK: - View lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        configureImageView()
+
         configureImageScrollView()
-    }    
+        configureImageView()
+    }
 }
 
 // MARK: - <UIScrollViewDelegate>
@@ -49,41 +49,41 @@ extension SingleImageViewController: UIScrollViewDelegate {
 // MARK: - Private methods
 
 private extension SingleImageViewController {
-    func configureImageView() {
-        guard let image else { return }
-        
-        imageView.image = image
-        imageView.frame.size = image.size
-        
-        rescaleAndCenterImageInScrollView(image: image)
-    }
-    
     func configureImageScrollView() {
         imageScrollView.delegate = self
-        
+
         imageScrollView.minimumZoomScale = 0.1
         imageScrollView.maximumZoomScale = 1.25
     }
     
+    func configureImageView() {
+        guard let image else { return }
+
+        imageView.image = image
+        imageView.frame.size = image.size
+
+        rescaleAndCenterImageInScrollView(image: image)
+    }
+
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = imageScrollView.minimumZoomScale
         let maxZoomScale = imageScrollView.maximumZoomScale
-        
+
         view.layoutIfNeeded()
-        
-        let visibleRectSize = imageScrollView.bounds.size
+
         let imageSize = image.size
+        let visibleRectSize = imageScrollView.bounds.size
         let hScale = visibleRectSize.width / imageSize.width
         let vScale = visibleRectSize.height / imageSize.height
         let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
-        
+
         imageScrollView.setZoomScale(scale, animated: false)
         imageScrollView.layoutIfNeeded()
-        
+
         let newContentSize = imageScrollView.contentSize
         let x = (newContentSize.width - visibleRectSize.width) / 2
         let y = (newContentSize.height - visibleRectSize.height) / 2
-        
+
         imageScrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
 }
