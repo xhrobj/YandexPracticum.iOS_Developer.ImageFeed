@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5lZ-kM-Mwk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sf5-FB-Onw">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -44,6 +44,7 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="loginButtonTapped" destination="BMM-uv-buB" eventType="touchUpInside" id="bO1-IA-D1e"/>
+                                    <segue destination="4RU-cF-f2Q" kind="show" identifier="ShowWebViewSeque" id="mau-Os-ogf"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -62,6 +63,41 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S2h-wu-Twn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-771.75572519083971" y="-198.59154929577466"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="SYG-XW-fte">
+            <objects>
+                <viewController id="4RU-cF-f2Q" customClass="WebViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pCp-zG-Mnc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fwV-6b-94P">
+                                <rect key="frame" x="0.0" y="103" width="393" height="749"/>
+                                <color key="backgroundColor" name="YP White"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ljJ-pW-Dok"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fwV-6b-94P" firstAttribute="top" secondItem="ljJ-pW-Dok" secondAttribute="top" id="1oC-rf-Z6L"/>
+                            <constraint firstAttribute="trailing" secondItem="fwV-6b-94P" secondAttribute="trailing" id="AYC-UW-BZc"/>
+                            <constraint firstItem="fwV-6b-94P" firstAttribute="leading" secondItem="pCp-zG-Mnc" secondAttribute="leading" id="WhS-by-vmq"/>
+                            <constraint firstAttribute="bottom" secondItem="fwV-6b-94P" secondAttribute="bottom" id="kcR-th-Boe"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="5zx-cO-m76"/>
+                    <connections>
+                        <outlet property="webView" destination="fwV-6b-94P" id="vLe-r8-P8Z"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eyE-KT-tcO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="200.76335877862596" y="-199.29577464788733"/>
         </scene>
         <!--Images List-->
         <scene sceneID="tne-QT-ifu">
