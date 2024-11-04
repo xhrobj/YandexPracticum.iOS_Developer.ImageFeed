@@ -47,9 +47,9 @@ final class ProfileViewController: UIViewController {
     
     private lazy var exitButton: UIButton = {
         let button = UIButton.systemButton(
-            with: UIImage(named: "exit") ?? UIImage(),
+            with: UIImage(named: "logout") ?? UIImage(),
             target: self,
-            action: #selector(exitButtonTapped)
+            action: #selector(logoutButtonTapped)
         )
         button.tintColor = UIColor(named: "YP Red")
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -135,6 +135,6 @@ private extension ProfileViewController {
     }
     
     @objc
-    func exitButtonTapped() {
+    func logoutButtonTapped() {
     }
 }
