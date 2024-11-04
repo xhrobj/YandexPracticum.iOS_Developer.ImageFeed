@@ -135,6 +135,6 @@ private extension ProfileViewController {
     }
     
     @objc
-    private func exitButtonTapped() {
+    func exitButtonTapped() {
     }
 }
