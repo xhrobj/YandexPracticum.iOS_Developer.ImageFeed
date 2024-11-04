@@ -16,6 +16,8 @@ final class ImagesListViewController: UIViewController {
         return formatter
     }()
     
+    private let showSingleImageSequeId = "ShowSingleImageSeque"
+    
     private let photosName: [String] = Array(0...19).map { String($0) }
     
     // MARK: - @IBOutlets
@@ -67,6 +69,34 @@ extension ImagesListViewController: UITableViewDelegate {
         imageViewSize.height = image.size.height * scale + imageInsets.top + imageInsets.bottom
         
         return imageViewSize.height
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: showSingleImageSequeId, sender: indexPath)
+    }
+}
+
+// MARK: -
+
+extension ImagesListViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == showSingleImageSequeId else {
+            super.prepare(for: segue, sender: sender)
+            
+            return
+        }
+
+        guard
+            let viewController = segue.destination as? SingleImageViewController,
+            let indexPath = sender as? IndexPath
+        else {
+            assertionFailure("Invalid segue destination")
+            
+            return
+        }
+
+        let image = UIImage(named: photosName[indexPath.row])
+        viewController.image = image
     }
 }
 
