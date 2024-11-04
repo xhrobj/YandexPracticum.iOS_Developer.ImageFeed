@@ -13,5 +13,4 @@ final class AuthViewController: UIViewController {
     
     @IBAction private func loginButtonTapped() {
     }
-    
 }
