@@ -82,6 +82,7 @@ extension ImagesListViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == showSingleImageSequeId else {
             super.prepare(for: segue, sender: sender)
+            
             return
         }
 
@@ -90,6 +91,7 @@ extension ImagesListViewController {
             let indexPath = sender as? IndexPath
         else {
             assertionFailure("Invalid segue destination")
+            
             return
         }
 

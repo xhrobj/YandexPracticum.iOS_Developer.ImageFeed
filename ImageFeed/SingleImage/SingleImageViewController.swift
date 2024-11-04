@@ -69,8 +69,6 @@ private extension SingleImageViewController {
         let minZoomScale = imageScrollView.minimumZoomScale
         let maxZoomScale = imageScrollView.maximumZoomScale
 
-        view.layoutIfNeeded()
-
         let imageSize = image.size
         let visibleRectSize = imageScrollView.bounds.size
         let hScale = visibleRectSize.width / imageSize.width
