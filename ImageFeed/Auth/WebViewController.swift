@@ -51,7 +51,11 @@ private extension WebViewController {
     }
     
     func loadAuthView() {
-        guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else { return }
+        guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
+            print("Error: Failed to create URLComponents from string", WebViewConstants.unsplashAuthorizeURLString)
+            
+            return
+        }
         
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: Constants.accessKey),
@@ -60,22 +64,26 @@ private extension WebViewController {
             URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
         
-        guard let url = urlComponents.url else { return }
+        guard let url = urlComponents.url else {
+            print("Error: Failed to create URL from URLComponents with base URL", urlComponents.string ?? "¯\\_(ツ)_/¯")
+            
+            return
+        }
         
         let request = URLRequest(url: url)
         webView.load(request)
     }
     
     func code(from navigationAction: WKNavigationAction) -> String? {
-        if let url = navigationAction.request.url,
-           let urlComponents = URLComponents(string: url.absoluteString),
-           urlComponents.path == "/oauth/authorize/native",
-           let items = urlComponents.queryItems,
-           let codeItem = items.first(where: { $0.name == "code" })
-        {
-            return codeItem.value
+        guard
+            let url = navigationAction.request.url,
+            let urlComponents = URLComponents(string: url.absoluteString),
+            urlComponents.path == "/oauth/authorize/native",
+            let codeItem = urlComponents.queryItems?.first(where: { $0.name == "code" })
+        else {
+            return nil
         }
         
-        return nil
+        return codeItem.value
     }
 }
