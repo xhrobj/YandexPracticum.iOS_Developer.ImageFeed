@@ -8,11 +8,7 @@
 import UIKit
 
 final class AuthViewController: UIViewController {
-    
-    // MARK: - @IBActions
-    
-    @IBAction private func loginButtonTapped() {
-    }
+    private let showWebViewSequeId = "ShowWebViewSeque"
     
     // MARK: - View lifecycle
     
@@ -20,6 +16,38 @@ final class AuthViewController: UIViewController {
         super.viewDidLoad()
         
         configureNavBackButton()
+    }
+}
+
+// MARK: - Segue
+
+extension AuthViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == showWebViewSequeId else {
+            super.prepare(for: segue, sender: sender)
+            
+            return
+        }
+
+        guard let viewController = segue.destination as? WebViewController else {
+            assertionFailure("Failed to prepare for \(showWebViewSequeId)")
+            
+            return
+        }
+
+        viewController.delegate = self
+    }
+}
+
+// MARK: - <WebViewControllerDelegate>
+
+extension AuthViewController: WebViewControllerDelegate {
+    func webViewController(_ vc: WebViewController, didAuthenticateWithCode code: String) {
+        // TODO:
+    }
+
+    func webViewControllerDidCancel(_ vc: WebViewController) {
+        vc.dismiss(animated: true)
     }
 }
 

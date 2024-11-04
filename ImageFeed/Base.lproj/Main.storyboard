@@ -43,7 +43,6 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="loginButtonTapped" destination="BMM-uv-buB" eventType="touchUpInside" id="bO1-IA-D1e"/>
                                     <segue destination="4RU-cF-f2Q" kind="show" identifier="ShowWebViewSeque" id="mau-Os-ogf"/>
                                 </connections>
                             </button>
