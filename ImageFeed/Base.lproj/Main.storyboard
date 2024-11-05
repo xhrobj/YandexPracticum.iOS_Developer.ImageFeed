@@ -98,7 +98,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="5zx-cO-m76"/>
                     <connections>
-                        <outlet property="progressView" destination="h46-x3-GyU" id="Atk-ET-1l5"/>
+                        <outlet property="loadingProgressView" destination="h46-x3-GyU" id="PQT-f0-RG3"/>
                         <outlet property="webView" destination="fwV-6b-94P" id="vLe-r8-P8Z"/>
                     </connections>
                 </viewController>

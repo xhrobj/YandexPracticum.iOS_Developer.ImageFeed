@@ -9,13 +9,12 @@ import UIKit
 import WebKit
 
 final class WebViewController: UIViewController {
-    
     weak var delegate: WebViewControllerDelegate?
     
     // MARK: - @IBOutlets
     
-    @IBOutlet private var progressView: UIProgressView!
     @IBOutlet private var webView: WKWebView!
+    @IBOutlet private var loadingProgressView: UIProgressView!
     
     // MARK: - View lifecycle
     
@@ -24,6 +23,34 @@ final class WebViewController: UIViewController {
         
         configureWebView()
         loadAuthView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        addObservers()
+        updateLoadingProgress()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        removeObservers()
+    }
+
+    override func observeValue(
+        forKeyPath keyPath: String?,
+        of object: Any?,
+        change: [NSKeyValueChangeKey : Any]?,
+        context: UnsafeMutableRawPointer?
+    ) {
+        guard keyPath == #keyPath(WKWebView.estimatedProgress) else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+            
+            return
+        }
+        
+        updateLoadingProgress()
     }
 }
 
@@ -51,6 +78,11 @@ private extension WebViewController {
         webView.navigationDelegate = self
     }
     
+    func updateLoadingProgress() {
+        loadingProgressView.progress = Float(webView.estimatedProgress)
+        loadingProgressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
+    }
+    
     func loadAuthView() {
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
             print("Error: Failed to create URLComponents from string", WebViewConstants.unsplashAuthorizeURLString)
@@ -73,6 +105,8 @@ private extension WebViewController {
         
         let request = URLRequest(url: url)
         webView.load(request)
+        
+        updateLoadingProgress()
     }
     
     func code(from navigationAction: WKNavigationAction) -> String? {
@@ -86,5 +120,21 @@ private extension WebViewController {
         }
         
         return codeItem.value
+    }
+}
+
+// MARK: - Private methods - Observers
+
+private extension WebViewController {
+    func addObservers() {
+        webView.addObserver(
+            self,
+            forKeyPath: #keyPath(WKWebView.estimatedProgress),
+            options: .new,
+            context: nil)
+    }
+    
+    func removeObservers() {
+        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
     }
 }
