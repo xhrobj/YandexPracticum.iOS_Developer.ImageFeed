@@ -5,10 +5,15 @@
 //  Created by Mikhail Eliseev on 04.11.2024.
 //
 
+// NOTE: https://unsplash.com/documentation/user-authentication-workflow
+
 import UIKit
 
 final class AuthViewController: UIViewController {
     private let showWebViewSequeId = "ShowWebViewSeque"
+    
+    private let oauth2Service = OAuth2Service.shared
+    private let oauth2Storage = OAuth2TokenStorage()
     
     // MARK: - View lifecycle
     
@@ -43,7 +48,8 @@ extension AuthViewController {
 
 extension AuthViewController: WebViewControllerDelegate {
     func webViewController(_ vc: WebViewController, didAuthenticateWithCode code: String) {
-        // TODO:
+        print("(⌒‿⌒) saved token:", oauth2Storage.token as Any)
+        fetchAccessToken(code)
     }
 
     func webViewControllerDidCancel(_ vc: WebViewController) {
@@ -59,5 +65,19 @@ private extension AuthViewController {
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_back")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YP Black")
+    }
+    
+    func fetchAccessToken(_ code: String) {
+        oauth2Service.fetchOAuth2Token(for: code) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let token):
+                    self.oauth2Storage.token = token
+                    print("^_^ token received successfully:", token)
+                case .failure(let error):
+                    print(">_<  Failed to fetch OAuth2 Token:", error.localizedDescription)
+                }
+            }
+        }
     }
 }

@@ -46,7 +46,6 @@ final class WebViewController: UIViewController {
     ) {
         guard keyPath == #keyPath(WKWebView.estimatedProgress) else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-            
             return
         }
         
@@ -86,20 +85,18 @@ private extension WebViewController {
     func loadAuthView() {
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
             print("Error: Failed to create URLComponents from string", WebViewConstants.unsplashAuthorizeURLString)
-            
             return
         }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
+            URLQueryItem(name: "client_id", value: OAuth2Constants.accessKey),
+            URLQueryItem(name: "redirect_uri", value: OAuth2Constants.redirectURI),
             URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.accessScope)
+            URLQueryItem(name: "scope", value: OAuth2Constants.accessScope)
         ]
         
         guard let url = urlComponents.url else {
             print("Error: Failed to create URL from URLComponents with base URL", urlComponents.string ?? "¯\\_(ツ)_/¯")
-            
             return
         }
         
