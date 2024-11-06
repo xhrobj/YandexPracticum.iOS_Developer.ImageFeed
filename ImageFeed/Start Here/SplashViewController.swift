@@ -93,13 +93,19 @@ private extension SplashViewController {
     }
     
     func fetchOAuth2AccessToken(_ code: String) {
-        oauth2Service.fetchOAuth2Token(for: code) { result in
-            switch result {
-            case .success(let token):
-                self.oauth2Storage.token = token
-                print("^_^ token received successfully:", token)
-            case .failure(let error):
-                print(">_<  Failed to fetch OAuth2 Token:", error.localizedDescription)
+        oauth2Service.fetchOAuth2Token(for: code) {  [weak self] result in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let token):
+                    self.oauth2Storage.token = token
+                    print("^_^ token received successfully:", token)
+                    self.showNextScreen()
+                case .failure(let error):
+                    print(">_<  Failed to fetch OAuth2 Token:", error.localizedDescription)
+                }
+                
             }
         }
     }
