@@ -18,14 +18,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="practicum_logo_splash" translatesAutoresizingMaskIntoConstraints="NO" id="VS4-OH-RcO">
-                                <rect key="frame" x="159" y="399.66666666666669" width="75" height="78"/>
+                                <rect key="frame" x="159" y="387" width="75" height="78"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
-                            <constraint firstItem="VS4-OH-RcO" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="Iy8-f0-WiS"/>
-                            <constraint firstItem="VS4-OH-RcO" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="NlA-Hz-LNt"/>
+                            <constraint firstItem="VS4-OH-RcO" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Iy8-f0-WiS"/>
+                            <constraint firstItem="VS4-OH-RcO" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="NlA-Hz-LNt"/>
                         </constraints>
                     </view>
                 </viewController>

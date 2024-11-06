@@ -30,13 +30,11 @@ extension AuthViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == showWebViewSequeId else {
             super.prepare(for: segue, sender: sender)
-            
             return
         }
 
         guard let viewController = segue.destination as? WebViewController else {
-            assertionFailure("Failed to prepare for \(showWebViewSequeId)")
-            
+            assertionFailure("Failed to prepare for \(segue.identifier ?? "¯∖_(ツ)_/¯")")
             return
         }
 
