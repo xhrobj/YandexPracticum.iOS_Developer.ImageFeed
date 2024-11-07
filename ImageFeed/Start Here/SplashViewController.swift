@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class SplashViewController: UIViewController {
     private let tabBarControllerId = "TabBarControllerId"
@@ -75,6 +76,7 @@ private extension SplashViewController {
             return
         }
 
+        oauth2Storage.reset()
         switchToTabBarController()
     }
     
@@ -93,10 +95,14 @@ private extension SplashViewController {
     }
     
     func fetchOAuth2AccessToken(_ code: String) {
+        ProgressHUD.animate()
+        
         oauth2Service.fetchOAuth2Token(for: code) {  [weak self] result in
-            guard let self = self else { return }
-            
             DispatchQueue.main.async {
+                ProgressHUD.dismiss()
+                
+                guard let self = self else { return }
+                
                 switch result {
                 case .success(let token):
                     self.oauth2Storage.token = token
