@@ -8,24 +8,32 @@
 import Foundation
 
 struct NetworkClient: NetworkRouting {
-    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
+    func fetch(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                handler(.failure(error))
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
                 return
             }
             
             if let response = response as? HTTPURLResponse, response.statusCode < 200 || response.statusCode >= 300 {
-                handler(.failure(NetworkClientError.invalidStatusCode))
+                DispatchQueue.main.async {
+                    completion(.failure(NetworkClientError.invalidStatusCode))
+                }
                 return
             }
             
             guard let data else {
-                handler(.failure(NetworkClientError.invalidData))
+                DispatchQueue.main.async {
+                    completion(.failure(NetworkClientError.invalidData))
+                }
                 return
             }
             
-            handler(.success(data))
+            DispatchQueue.main.async {
+                completion(.success(data))
+            }
         }
         
         task.resume()

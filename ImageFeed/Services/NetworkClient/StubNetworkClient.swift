@@ -14,13 +14,13 @@ struct StubNetworkClient: NetworkRouting {
     
     let emulateError: Bool
     
-    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
+    func fetch(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
         guard !emulateError else {
-            handler(.failure(TestError.test))
+            completion(.failure(TestError.test))
             return
         }
         
-        handler(.success(expectedResponse))
+        completion(.success(expectedResponse))
     }
 }
 

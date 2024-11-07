@@ -98,19 +98,17 @@ private extension SplashViewController {
         ProgressHUD.animate()
         
         oauth2Service.fetchOAuth2Token(for: code) {  [weak self] result in
-            DispatchQueue.main.async {
-                ProgressHUD.dismiss()
-                
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let token):
-                    self.oauth2Storage.token = token
-                    print("^_^ token received successfully:", token)
-                    self.showNextScreen()
-                case .failure(let error):
-                    print(">_<  Failed to fetch OAuth2 Token:", error.localizedDescription)
-                }
+            ProgressHUD.dismiss()
+            
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let token):
+                self.oauth2Storage.token = token
+                print("^_^ token received successfully:", token)
+                self.showNextScreen()
+            case .failure(let error):
+                print(">_<  Failed to fetch OAuth2 Token:", error.localizedDescription)
             }
         }
     }
