@@ -12,16 +12,16 @@ final class SingleImageViewController: UIViewController {
     
     // MARK: - @IBOutlets
     
-    @IBOutlet weak var imageScrollView: UIScrollView!
+    @IBOutlet private var imageScrollView: UIScrollView!
     @IBOutlet private var imageView: UIImageView!
     
     // MARK: - @IBActions
     
-    @IBAction func backButtonTapped() {
+    @IBAction private func backButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func shareButtonTapped() {
+    @IBAction private func shareButtonTapped() {
         guard let image else { return }
 
         let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)

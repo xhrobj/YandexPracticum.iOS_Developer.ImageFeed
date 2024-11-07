@@ -8,6 +8,10 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
+    private let showSingleImageSequeId = "ShowSingleImageSeque"
+    
+    private let photosName: [String] = Array(0...19).map { String($0) }
+    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -15,10 +19,6 @@ final class ImagesListViewController: UIViewController {
         
         return formatter
     }()
-    
-    private let showSingleImageSequeId = "ShowSingleImageSeque"
-    
-    private let photosName: [String] = Array(0...19).map { String($0) }
     
     // MARK: - @IBOutlets
 
@@ -76,13 +76,12 @@ extension ImagesListViewController: UITableViewDelegate {
     }
 }
 
-// MARK: -
+// MARK: - Segue
 
 extension ImagesListViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == showSingleImageSequeId else {
             super.prepare(for: segue, sender: sender)
-            
             return
         }
 
@@ -90,8 +89,7 @@ extension ImagesListViewController {
             let viewController = segue.destination as? SingleImageViewController,
             let indexPath = sender as? IndexPath
         else {
-            assertionFailure("Invalid segue destination")
-            
+            assertionFailure("Failed to prepare for \(segue.identifier ?? "¯∖_(ツ)_/¯")")
             return
         }
 
