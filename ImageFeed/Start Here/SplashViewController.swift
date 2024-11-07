@@ -16,15 +16,15 @@ final class SplashViewController: UIViewController {
     
     // MARK: - View lifecycle
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         showNextScreen()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -70,7 +70,7 @@ private extension SplashViewController {
     func showNextScreen() {
         print("(⌒‿⌒) saved token:", oauth2Storage.token as Any)
         
-        guard let _ = oauth2Storage.token else {
+        guard oauth2Storage.token != nil else {
             showAuth()
             return
         }
@@ -105,7 +105,6 @@ private extension SplashViewController {
                 case .failure(let error):
                     print(">_<  Failed to fetch OAuth2 Token:", error.localizedDescription)
                 }
-                
             }
         }
     }

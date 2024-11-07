@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import WebKit
+@preconcurrency import WebKit
 
 final class WebViewController: UIViewController {
     weak var delegate: WebViewControllerDelegate?
@@ -83,8 +83,8 @@ private extension WebViewController {
     }
     
     func loadAuthView() {
-        guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
-            print("Error: Failed to create URLComponents from string", WebViewConstants.unsplashAuthorizeURLString)
+        guard var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURLString) else {
+            print("Error: Failed to create URLComponents from string", Constants.unsplashAuthorizeURLString)
             return
         }
         
@@ -133,5 +133,13 @@ private extension WebViewController {
     
     func removeObservers() {
         webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
+    }
+}
+
+// MARK: - Constants
+
+private extension WebViewController {
+     enum Constants {
+        static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     }
 }
