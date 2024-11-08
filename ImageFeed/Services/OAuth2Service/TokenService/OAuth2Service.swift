@@ -26,17 +26,12 @@ extension OAuth2Service: OAuth2ServiceProtocol {
     func fetchOAuth2Token(for code: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         
-        if let task = currentNetworkClientTask {
-            if lastCode == code {
-                completion(.failure(OAuth2ServiceError.unexpectedRequest))
-                return
-            }
-            task.cancel()
-        } else if lastCode == code {
+        guard currentNetworkClientTask == nil || lastCode != code else {
             completion(.failure(OAuth2ServiceError.unexpectedRequest))
             return
         }
 
+        currentNetworkClientTask?.cancel()
         lastCode = code
 
         guard let request = makeOAuthTokenRequest(with: code) else {
@@ -44,7 +39,9 @@ extension OAuth2Service: OAuth2ServiceProtocol {
             return
         }
         
-        currentNetworkClientTask = networkClient.fetch(request: request) { result in
+        currentNetworkClientTask = networkClient.fetch(request: request) { [weak self] result in
+            self?.currentNetworkClientTask = nil
+            
             switch result {
             case .success(let data):
                 let response: OAuth2TokenResponseDTO
