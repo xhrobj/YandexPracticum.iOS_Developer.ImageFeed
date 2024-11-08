@@ -11,6 +11,9 @@ final class OAuth2Service {
     static let shared = OAuth2Service()
     
     private let networkClient: NetworkRouting
+    private var currentNetworkClientTask: URLSessionDataTask?
+    
+    private var lastCode: String?
     
     private init(networkClient: NetworkRouting = NetworkClient()) {
         self.networkClient = networkClient
@@ -21,12 +24,27 @@ final class OAuth2Service {
 
 extension OAuth2Service: OAuth2ServiceProtocol {
     func fetchOAuth2Token(for code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        
+        if let task = currentNetworkClientTask {
+            if lastCode == code {
+                completion(.failure(OAuth2ServiceError.unexpectedRequest))
+                return
+            }
+            task.cancel()
+        } else if lastCode == code {
+            completion(.failure(OAuth2ServiceError.unexpectedRequest))
+            return
+        }
+
+        lastCode = code
+
         guard let request = makeOAuthTokenRequest(with: code) else {
             completion(.failure(OAuth2ServiceError.invalidURL))
             return
         }
         
-        networkClient.fetch(request: request) { result in
+        currentNetworkClientTask = networkClient.fetch(request: request) { result in
             switch result {
             case .success(let data):
                 let response: OAuth2TokenResponseDTO
@@ -78,6 +96,7 @@ private extension OAuth2Service {
     enum OAuth2ServiceError: LocalizedError {
         case invalidURL
         case decodingError
+        case unexpectedRequest
         
         var errorDescription: String? {
             switch self {
@@ -85,6 +104,8 @@ private extension OAuth2Service {
                 return "Некорректный url или компоненты запроса (✖╭╮✖)"
             case .decodingError:
                 return "Ошибка при декодировании ответа (╯°□°）╯︵ ┻━┻"
+            case .unexpectedRequest:
+                return "Повторяющийся или не соответствующий логике запрос (⊙_☉)"
             }
         }
     }

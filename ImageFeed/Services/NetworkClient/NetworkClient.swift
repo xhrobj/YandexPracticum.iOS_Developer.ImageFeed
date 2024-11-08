@@ -8,7 +8,7 @@
 import Foundation
 
 struct NetworkClient: NetworkRouting {
-    func fetch(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
+    func fetch(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTask? {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 DispatchQueue.main.async {
@@ -35,8 +35,9 @@ struct NetworkClient: NetworkRouting {
                 completion(.success(data))
             }
         }
-        
         task.resume()
+        
+        return task
     }
 }
 

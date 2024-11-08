@@ -19,6 +19,7 @@ final class SplashViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         setNeedsStatusBarAppearanceUpdate()
     }
     
@@ -39,6 +40,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticateWithCode(_ code: String) {
         dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
+            
             self.fetchOAuth2AccessToken(code)
         }
     }
@@ -57,7 +59,7 @@ extension SplashViewController {
             let navigationController = segue.destination as? UINavigationController,
             let viewController = navigationController.viewControllers[0] as? AuthViewController
         else {
-            assertionFailure("Failed to prepare for \(segue.identifier ?? "¯∖_(ツ)_/¯")")
+            assertionFailure("(•_•) Failed to prepare for \(segue.identifier ?? "¯∖_(ツ)_/¯")")
             return
         }
         
