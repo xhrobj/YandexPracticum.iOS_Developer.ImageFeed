@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import ProgressHUD
 
 final class SplashViewController: UIViewController {
     private let tabBarControllerId = "TabBarControllerId"
@@ -97,10 +96,10 @@ private extension SplashViewController {
     }
     
     func fetchOAuth2AccessToken(_ code: String) {
-        ProgressHUD.animate()
+        UIBlockingProgressHUD.show()
         
-        oauth2Service.fetchOAuth2Token(for: code) {  [weak self] result in
-            ProgressHUD.dismiss()
+        oauth2Service.fetchOAuth2Token(for: code) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
             
             guard let self = self else { return }
             

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -63,6 +63,10 @@
 		6FC5462C2CDBE364008DFB5C /* AuthViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewControllerDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		6F265F6E2CDE0F2C00D65996 /* Helpers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Helpers; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		6F0DBCF02B4D9E0300013F72 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -101,6 +105,7 @@
 				6FC545F82CD2BB03008DFB5C /* SingleImage */,
 				6FC546122CDA478C008DFB5C /* Services */,
 				6FC5461D2CDA8588008DFB5C /* Models */,
+				6F265F6E2CDE0F2C00D65996 /* Helpers */,
 				6F0DBCFC2B4D9E0300013F72 /* Main.storyboard */,
 				6F0DBD0A2B4DC7E400013F72 /* Resources */,
 				6F0DBCF62B4D9E0300013F72 /* AppDelegate.swift */,
@@ -241,6 +246,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				6F265F6E2CDE0F2C00D65996 /* Helpers */,
 			);
 			name = ImageFeed;
 			productName = ImageFeed;
