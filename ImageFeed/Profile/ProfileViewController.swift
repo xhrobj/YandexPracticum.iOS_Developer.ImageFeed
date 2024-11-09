@@ -65,36 +65,16 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         configureView()
-        fetchProfile()
+        configureView(with: profileService.profile)
     }
 }
 
 // MARK: - Private methods
 
 private extension ProfileViewController {
-    func fetchProfile() {
-        UIBlockingProgressHUD.show()
+    func configureView(with profile: Profile?) {
+        guard let profile else { return }
         
-        profileService.fetchProfile{ [weak self] result in
-            UIBlockingProgressHUD.dismiss()
-            
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let profile):
-                print("^_^ profile received successfully:", profile)
-                self.configureView(with: profile)
-            case .failure(let error):
-                print(">_< Error", error.localizedDescription)
-            }
-        }
-    }
-}
-
-// MARK: - Private methods - Layout
-
-private extension ProfileViewController {
-    func configureView(with profile: Profile) {
         nameLabel.text = profile.fullName
         loginLabel.text = profile.loginName
         descriptionLabel.text = profile.bio

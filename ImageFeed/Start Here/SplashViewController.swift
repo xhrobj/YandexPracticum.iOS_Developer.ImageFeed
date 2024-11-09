@@ -11,8 +11,9 @@ final class SplashViewController: UIViewController {
     private let tabBarControllerId = "TabBarControllerId"
     private let showAuthSequeId = "ShowAuthSegue"
     
-    private let oauth2Service = OAuth2Service.shared
     private let oauth2Storage = OAuth2TokenStorage()
+    private let oauth2Service = OAuth2Service.shared
+    private let profileService = ProfileService.shared
     
     // MARK: - View lifecycle
     
@@ -76,6 +77,11 @@ private extension SplashViewController {
             showAuth()
             return
         }
+        
+        guard profileService.profile != nil else {
+            fetchProfile()
+            return
+        }
 
 //        oauth2Storage.reset()
         switchToTabBarController()
@@ -95,6 +101,21 @@ private extension SplashViewController {
         window.rootViewController = tabBarController
     }
     
+    func showAlert(for error: Error) {
+        let alertController = UIAlertController(
+            title: "Error",
+            message: "\(error.localizedDescription)",
+            preferredStyle: .alert
+        )
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        present(alertController, animated: true)
+    }
+}
+
+// MARK: - Private methods - Load Data
+
+private extension SplashViewController {
     func fetchOAuth2AccessToken(_ code: String) {
         UIBlockingProgressHUD.show()
         
@@ -108,8 +129,30 @@ private extension SplashViewController {
                 self.oauth2Storage.token = token
                 print("^_^ token received successfully:", token)
                 self.showNextScreen()
+                
             case .failure(let error):
                 print(">_< Failed to fetch OAuth2 Token:", error.localizedDescription)
+                self.showAlert(for: error)
+            }
+        }
+    }
+    
+    func fetchProfile() {
+        UIBlockingProgressHUD.show()
+        
+        profileService.fetchProfile() { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let profile):
+                print("^_^ profile received successfully:", profile)
+                self.showNextScreen()
+                
+            case .failure(let error):
+                print(">_< Failed to fetch Profile:", error.localizedDescription)
+                self.showAlert(for: error)
             }
         }
     }

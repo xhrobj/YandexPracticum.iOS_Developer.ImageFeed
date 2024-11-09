@@ -11,6 +11,8 @@ final class ProfileService {
     static let shared = ProfileService()
     
     private(set) var networkClient: NetworkRouting
+    private(set) var profile: Profile?
+    
     private let oauth2Storage = OAuth2TokenStorage()
     private var currentNetworkClientTask: URLSessionDataTask?
     
@@ -37,6 +39,7 @@ extension ProfileService: ProfileServiceProtocol {
         
         currentNetworkClientTask = networkClient.fetch(request: request) { [weak self] result in
             self?.currentNetworkClientTask = nil
+            self?.profile = nil
             
             switch result {
             case .success(let data):
@@ -48,6 +51,7 @@ extension ProfileService: ProfileServiceProtocol {
 //                }
                     
                 let response: ProfileResponseDTO
+                
                 
                 do {
                     response = try JSONDecoder().decode(ProfileResponseDTO.self, from: data)
@@ -63,6 +67,7 @@ extension ProfileService: ProfileServiceProtocol {
                     lastName: response.lastName ?? "",
                     bio: response.bio ?? ""
                 )
+                self?.profile = profile
                 
                 completion(.success(profile))
                 
