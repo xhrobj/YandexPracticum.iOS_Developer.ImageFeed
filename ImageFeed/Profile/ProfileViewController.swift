@@ -175,6 +175,7 @@ private extension ProfileViewController {
     }
     
     func updateAvatar(with imageURL: URL) {
+        avatarImageView.kf.indicatorType = .activity
         avatarImageView.kf.setImage(with: imageURL)
     }
 }

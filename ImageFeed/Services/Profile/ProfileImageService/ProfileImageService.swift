@@ -8,10 +8,8 @@
 import Foundation
 
 final class ProfileImageService {
-    static let didChangeAvatarImageLinkNotification = Notification.Name(
-        rawValue: Constants.didChangeAvatarImageLinkNotification
-    )
-    static let notificationAvatarImageLinkKey = Constants.notificationAvatarImageLinkKey
+    static let didChangeAvatarImageLinkNotification = Notification.Name("ProfileImageProviderDidChange")
+    static let notificationAvatarImageLinkKey = "avatarImageLink"
     
     static let shared = ProfileImageService()
     
@@ -99,18 +97,9 @@ private extension ProfileImageService {
 
         NotificationCenter.default
             .post(
-                name: ProfileImageService.didChangeAvatarImageLinkNotification,
+                name: Self.didChangeAvatarImageLinkNotification,
                 object: self,
-                userInfo: [Constants.notificationAvatarImageLinkKey: profileImageLink]
+                userInfo: [Self.notificationAvatarImageLinkKey: profileImageLink]
             )
-    }
-}
-
-// MARK: - Constants
-
-private extension ProfileImageService {
-     enum Constants {
-         static let didChangeAvatarImageLinkNotification = "ProfileImageProviderDidChange"
-         static let notificationAvatarImageLinkKey = "avatarImageLink"
     }
 }
