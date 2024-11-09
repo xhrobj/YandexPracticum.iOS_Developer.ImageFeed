@@ -18,7 +18,7 @@ final class ProfileService {
     
     private init(
         networkClient: NetworkRouting = NetworkClient(),
-        oauth2Storage: OAuth2TokenStorageProtocol = OAuth2TokenStorage()
+        oauth2Storage: OAuth2TokenStorageProtocol = OAuth2TokenStorage.shared
     ) {
         self.networkClient = networkClient
         self.oauth2Storage = oauth2Storage

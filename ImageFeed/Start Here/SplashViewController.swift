@@ -11,7 +11,7 @@ final class SplashViewController: UIViewController {
     private let tabBarControllerId = "TabBarControllerId"
     private let showAuthSequeId = "ShowAuthSegue"
     
-    private let oauth2Storage = OAuth2TokenStorage()
+    private let oauth2Storage = OAuth2TokenStorage.shared
     private let oauth2Service = OAuth2Service.shared
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared

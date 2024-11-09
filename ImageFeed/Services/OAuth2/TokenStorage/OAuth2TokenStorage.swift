@@ -5,23 +5,32 @@
 //  Created by Mikhail Eliseev on 05.11.2024.
 //
 
-import Foundation
+import SwiftKeychainWrapper
 
 final class OAuth2TokenStorage: OAuth2TokenStorageProtocol {
-    private let userDefaults = UserDefaults.standard
+    static let shared = OAuth2TokenStorage()
+    
+    private let keychain = KeychainWrapper.standard
+    
+    private init() {}
     
     var token: String? {
         get {
-            userDefaults.string(forKey: Keys.token.rawValue)
+            keychain.string(forKey: Keys.token.rawValue)
         }
         set {
-            userDefaults.set(newValue, forKey: Keys.token.rawValue)
+            guard let token = newValue else {
+                keychain.removeObject(forKey: Keys.token.rawValue)
+                return
+            }
+            
+            keychain.set(token, forKey: Keys.token.rawValue)
         }
     }
     
     func reset() {
         Keys.allCases.forEach { key in
-            userDefaults.removeObject(forKey: key.rawValue)
+            keychain.removeObject(forKey: key.rawValue)
         }
     }
 }
