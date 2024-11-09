@@ -9,7 +9,7 @@ import Foundation
 
 protocol ProfileImageServiceProtocol {
     var networkClient: NetworkRouting { get }
-    var profileImageURL: String? { get }
+    var profileImageLink: String? { get }
 
-    func fetchProfileImageURL(username: String, completion: @escaping (Result<String, Error>) -> Void)
+    func fetchProfileImageLink(username: String, completion: @escaping (Result<String, Error>) -> Void)
 }

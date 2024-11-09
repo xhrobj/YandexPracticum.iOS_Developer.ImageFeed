@@ -149,7 +149,7 @@ private extension SplashViewController {
             switch result {
             case .success(let profile):
                 print("^_^ profile received successfully:", profile)
-                self.profileImageService.fetchProfileImageURL(username: profile.username) { _ in }
+                self.profileImageService.fetchProfileImageLink(username: profile.username) { _ in }
                 self.showNextScreen()
                 
             case .failure(let error):

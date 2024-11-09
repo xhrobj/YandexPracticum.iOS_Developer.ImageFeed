@@ -120,7 +120,7 @@ private extension WebViewController {
     }
 }
 
-// MARK: - Private methods - Observers
+// MARK: - Notifications
 
 private extension WebViewController {
     func addObservers() {

@@ -9,6 +9,7 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage())
@@ -59,13 +60,34 @@ final class ProfileViewController: UIViewController {
         return button
     }()
     
+    private var avatarImageURL: URL? {
+        let imageLink = profileImageService.profileImageLink
+        
+        guard let imageLink else { return nil}
+        
+        return URL(string: imageLink)
+    }
+    
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         configureView()
         configureView(with: profileService.profile)
+        updateAvatar()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        addObservers()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        removeObservers()
     }
 }
 
@@ -143,7 +165,59 @@ private extension ProfileViewController {
         ])
     }
     
+    // MARK: -
+    
+    func updateAvatar() {
+        guard let avatarImageURL = avatarImageURL else { return }
+        
+        updateAvatar(with: avatarImageURL)
+    }
+    
+    func updateAvatar(with imageURL: URL) {
+        // TODO [Sprint 11] Обновите аватар, используя Kingfisher
+        print(imageURL)
+    }
+}
+
+// MARK: - @objc Actions
+
+private extension ProfileViewController {
+    
     @objc
     func logoutButtonTapped() {
+    }
+    
+    @objc
+    func updateAvatar(notification: Notification) {
+        guard
+            let userInfo = notification.userInfo,
+            let profileImageLink = userInfo[ProfileImageService.notificationAvatarImageLinkKey] as? String,
+            let avatarImageURL = URL(string: profileImageLink)
+        else { return }
+        
+        updateAvatar(with: avatarImageURL)
+    }
+}
+
+// MARK: - Notifications
+
+private extension ProfileViewController {
+    private func addObservers() {
+        NotificationCenter.default
+            .addObserver(
+                self,
+                selector: #selector(updateAvatar(notification:)),
+                name: ProfileImageService.didChangeAvatarImageLinkNotification,
+                object: nil
+            )
+    }
+       
+    private func removeObservers() {
+        NotificationCenter.default
+            .removeObserver(
+                self,
+                name: ProfileImageService.didChangeAvatarImageLinkNotification,
+                object: nil
+            )
     }
 }

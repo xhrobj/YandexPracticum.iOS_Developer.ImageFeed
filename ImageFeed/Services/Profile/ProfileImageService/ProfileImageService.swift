@@ -8,10 +8,15 @@
 import Foundation
 
 final class ProfileImageService {
+    static let didChangeAvatarImageLinkNotification = Notification.Name(
+        rawValue: Constants.didChangeAvatarImageLinkNotification
+    )
+    static let notificationAvatarImageLinkKey = Constants.notificationAvatarImageLinkKey
+    
     static let shared = ProfileImageService()
     
     private(set) var networkClient: NetworkRouting
-    private(set) var profileImageURL: String?
+    private(set) var profileImageLink: String?
     
     private let oauth2Storage: OAuth2TokenStorageProtocol
     
@@ -32,7 +37,7 @@ extension ProfileImageService: ProfileImageServiceProtocol {
     
     // NOTE: https://unsplash.com/documentation#get-a-users-public-profile
 
-    func fetchProfileImageURL(username: String, completion: @escaping (Result<String, any Error>) -> Void) {
+    func fetchProfileImageLink(username: String, completion: @escaping (Result<String, any Error>) -> Void) {
         assert(Thread.isMainThread)
         
         guard currentNetworkClientTask == nil else { return }
@@ -44,16 +49,16 @@ extension ProfileImageService: ProfileImageServiceProtocol {
         
         currentNetworkClientTask = networkClient.fetch(request: request) { [weak self] result in
             self?.currentNetworkClientTask = nil
-            self?.profileImageURL = nil
+            self?.profileImageLink = nil
             
             switch result {
             case .success(let data):
 
-                if let jsonString = String(data: data, encoding: .utf8) {
-                    print("Received JSON: \(jsonString)")
-                } else {
-                    print("Failed to convert data to string")
-                }
+//                if let jsonString = String(data: data, encoding: .utf8) {
+//                    print("Received JSON: \(jsonString)")
+//                } else {
+//                    print("Failed to convert data to string")
+//                }
                     
                 let response: UserResponseDTO
 
@@ -65,7 +70,9 @@ extension ProfileImageService: ProfileImageServiceProtocol {
                 }
                 
                 let profileImageURL = response.profileImage.medium
-                self?.profileImageURL = profileImageURL
+                self?.profileImageLink = profileImageURL
+                
+                self?.sendNotification()
                 
                 completion(.success(profileImageURL))
                 
@@ -99,5 +106,25 @@ private extension ProfileImageService {
         }
         
         return request
+    }
+    
+    func sendNotification() {
+        guard let profileImageLink else { return }
+
+        NotificationCenter.default
+            .post(
+                name: ProfileImageService.didChangeAvatarImageLinkNotification,
+                object: self,
+                userInfo: [Constants.notificationAvatarImageLinkKey: profileImageLink]
+            )
+    }
+}
+
+// MARK: - Constants
+
+private extension ProfileImageService {
+     enum Constants {
+         static let didChangeAvatarImageLinkNotification = "ProfileImageProviderDidChange"
+         static let notificationAvatarImageLinkKey = "avatarImageLink"
     }
 }
