@@ -84,7 +84,6 @@ private extension SplashViewController {
             return
         }
 
-        oauth2Storage.reset()
         switchToTabBarController()
     }
     
@@ -100,6 +99,19 @@ private extension SplashViewController {
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: tabBarControllerId)
         window.rootViewController = tabBarController
+    }
+    
+    func showAlert(for error: Error, retryHandler: @escaping () -> Void) {
+        let alertController = UIAlertController(
+            title: "Ошибка",
+            message: "\(error.localizedDescription)",
+            preferredStyle: .alert
+        )
+        alertController.addAction(UIAlertAction(title: "ОК", style: .default) { _ in
+            retryHandler()
+        })
+        
+        present(alertController, animated: true)
     }
     
     func showAlert(for error: Error) {
@@ -133,7 +145,9 @@ private extension SplashViewController {
                 
             case .failure(let error):
                 print(">_< Failed to fetch OAuth2 Token:", error.localizedDescription)
-                self.showAlert(for: error)
+                self.showAlert(for: error) { [weak self] in
+                    self?.fetchOAuth2AccessToken(code)
+                }
             }
         }
     }
@@ -154,7 +168,9 @@ private extension SplashViewController {
                 
             case .failure(let error):
                 print(">_< Failed to fetch Profile:", error.localizedDescription)
-                self.showAlert(for: error)
+                self.showAlert(for: error) { [weak self] in
+                    self?.fetchProfile()
+                }
             }
         }
     }
