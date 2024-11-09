@@ -8,7 +8,11 @@
 import Foundation
 
 struct NetworkClient: NetworkRouting {
-    func fetch(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTask? {
+    func fetchObject<T: Decodable>(
+        for request: URLRequest,
+        completion: @escaping (Result<T, Error>) -> Void
+    ) -> URLSessionDataTask? {
+        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 DispatchQueue.main.async {
@@ -31,8 +35,17 @@ struct NetworkClient: NetworkRouting {
                 return
             }
             
+            let response: T
+
+            do {
+                response = try JSONDecoder().decode(T.self, from: data)
+            } catch {
+                completion(.failure(NetworkClientError.decodingError))
+                return
+            }
+            
             DispatchQueue.main.async {
-                completion(.success(data))
+                completion(.success(response))
             }
         }
         task.resume()
@@ -45,6 +58,7 @@ private extension NetworkClient {
     enum NetworkClientError: LocalizedError {
         case invalidStatusCode
         case invalidData
+        case decodingError
         
         var errorDescription: String? {
             switch self {
@@ -52,6 +66,8 @@ private extension NetworkClient {
                 return "Код ответа сервера не в пределах ожидаемого диапазона (x_x)"
             case .invalidData:
                 return "Ошибка при получении данных с сервера (x_x)"
+            case .decodingError:
+                return "Ошибка при декодировании ответа (╯°□°）╯︵ ┻━┻"
             }
         }
     }

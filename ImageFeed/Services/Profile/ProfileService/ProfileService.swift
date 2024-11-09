@@ -41,21 +41,14 @@ extension ProfileService: ProfileServiceProtocol {
             return
         }
         
-        currentNetworkClientTask = networkClient.fetch(request: request) { [weak self] result in
+        currentNetworkClientTask = networkClient
+            .fetchObject(for: request) { [weak self] (result: Result<ProfileResponseDTO, Error>) in
+                
             self?.currentNetworkClientTask = nil
             self?.profile = nil
             
             switch result {
-            case .success(let data):
-                let response: ProfileResponseDTO
-
-                do {
-                    response = try JSONDecoder().decode(ProfileResponseDTO.self, from: data)
-                } catch {
-                    completion(.failure(ServiceError.decodingError))
-                    return
-                }
-                
+            case .success(let response):
                 let profile = Profile(
                     id: response.id,
                     username: response.username,

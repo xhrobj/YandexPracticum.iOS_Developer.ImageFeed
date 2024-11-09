@@ -47,28 +47,14 @@ extension ProfileImageService: ProfileImageServiceProtocol {
             return
         }
         
-        currentNetworkClientTask = networkClient.fetch(request: request) { [weak self] result in
+        currentNetworkClientTask = networkClient
+            .fetchObject(for: request) { [weak self] (result: Result<UserResponseDTO, Error>) in
+            
             self?.currentNetworkClientTask = nil
             self?.profileImageLink = nil
             
             switch result {
-            case .success(let data):
-
-//                if let jsonString = String(data: data, encoding: .utf8) {
-//                    print("Received JSON: \(jsonString)")
-//                } else {
-//                    print("Failed to convert data to string")
-//                }
-                    
-                let response: UserResponseDTO
-
-                do {
-                    response = try JSONDecoder().decode(UserResponseDTO.self, from: data)
-                } catch {
-                    completion(.failure(ServiceError.decodingError))
-                    return
-                }
-                
+            case .success(let response):
                 let profileImageURL = response.profileImage.medium
                 self?.profileImageLink = profileImageURL
                 

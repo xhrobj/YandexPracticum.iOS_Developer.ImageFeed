@@ -8,5 +8,8 @@
 import Foundation
 
 protocol NetworkRouting {
-    func fetch(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTask?
+    func fetchObject<T: Decodable>(
+        for: URLRequest,
+        completion: @escaping (Result<T, Error>) -> Void
+    ) -> URLSessionDataTask?
 }

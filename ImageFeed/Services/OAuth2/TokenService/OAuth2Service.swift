@@ -42,20 +42,13 @@ extension OAuth2Service: OAuth2ServiceProtocol {
             return
         }
         
-        currentNetworkClientTask = networkClient.fetch(request: request) { [weak self] result in
+        currentNetworkClientTask = networkClient
+            .fetchObject(for: request) { [weak self] (result: Result<OAuth2TokenResponseDTO, Error>) in
+            
             self?.currentNetworkClientTask = nil
             
             switch result {
-            case .success(let data):
-                let response: OAuth2TokenResponseDTO
-                
-                do {
-                    response = try JSONDecoder().decode(OAuth2TokenResponseDTO.self, from: data)
-                } catch {
-                    completion(.failure(ServiceError.decodingError))
-                    return
-                }
-                
+            case .success(let response):
                 completion(.success(response.accessToken))
                 
             case .failure(let error):
