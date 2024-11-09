@@ -84,7 +84,7 @@ private extension SplashViewController {
             return
         }
 
-//        oauth2Storage.reset()
+        oauth2Storage.reset()
         switchToTabBarController()
     }
     

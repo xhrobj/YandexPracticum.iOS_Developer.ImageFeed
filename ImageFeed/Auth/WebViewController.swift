@@ -11,6 +11,8 @@ import UIKit
 final class WebViewController: UIViewController {
     weak var delegate: WebViewControllerDelegate?
     
+    private var estimatedProgressObservation: NSKeyValueObservation?
+    
     // MARK: - @IBOutlets
     
     @IBOutlet private var webView: WKWebView!
@@ -29,26 +31,6 @@ final class WebViewController: UIViewController {
         super.viewDidAppear(animated)
         
         addObservers()
-        updateLoadingProgress()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        removeObservers()
-    }
-
-    override func observeValue(
-        forKeyPath keyPath: String?,
-        of object: Any?,
-        change: [NSKeyValueChangeKey : Any]?,
-        context: UnsafeMutableRawPointer?
-    ) {
-        guard keyPath == #keyPath(WKWebView.estimatedProgress) else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-            return
-        }
-        
         updateLoadingProgress()
     }
 }
@@ -96,7 +78,7 @@ private extension WebViewController {
         ]
         
         guard let url = urlComponents.url else {
-            print("Error: Failed to create URL from URLComponents with base URL", urlComponents.string ?? "¯\\_(ツ)_/¯")
+            print("Error: Failed to create URL from URLComponents with base URL", urlComponents.string ?? "¯∖_(ツ)_/¯")
             return
         }
         
@@ -124,15 +106,13 @@ private extension WebViewController {
 
 private extension WebViewController {
     func addObservers() {
-        webView.addObserver(
-            self,
-            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-            options: .new,
-            context: nil)
-    }
-    
-    func removeObservers() {
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
+        estimatedProgressObservation = webView.observe(
+            \.estimatedProgress,
+             options: [],
+             changeHandler: { [weak self] _, _ in
+                 self?.updateLoadingProgress()
+             }
+        )
     }
 }
 
