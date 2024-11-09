@@ -10,7 +10,7 @@ import Foundation
 final class OAuth2Service {
     static let shared = OAuth2Service()
     
-    private let networkClient: NetworkRouting
+    private(set) var networkClient: NetworkRouting
     private var currentNetworkClientTask: URLSessionDataTask?
     
     private var lastCode: String?
@@ -23,11 +23,14 @@ final class OAuth2Service {
 // MARK: - <OAuth2ServiceProtocol>
 
 extension OAuth2Service: OAuth2ServiceProtocol {
+    
+    // https://unsplash.com/documentation/user-authentication-workflow#authorization-workflow (look at #3)
+    
     func fetchOAuth2Token(for code: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         
         guard currentNetworkClientTask == nil || lastCode != code else {
-            completion(.failure(OAuth2ServiceError.unexpectedRequest))
+            completion(.failure(ServiceError.unexpectedRequest))
             return
         }
 
@@ -35,7 +38,7 @@ extension OAuth2Service: OAuth2ServiceProtocol {
         lastCode = code
 
         guard let request = makeOAuthTokenRequest(with: code) else {
-            completion(.failure(OAuth2ServiceError.invalidURL))
+            completion(.failure(ServiceError.invalidURL))
             return
         }
         
@@ -49,7 +52,7 @@ extension OAuth2Service: OAuth2ServiceProtocol {
                 do {
                     response = try JSONDecoder().decode(OAuth2TokenResponseDTO.self, from: data)
                 } catch {
-                    completion(.failure(OAuth2ServiceError.decodingError))
+                    completion(.failure(ServiceError.decodingError))
                     return
                 }
                 
@@ -66,12 +69,12 @@ extension OAuth2Service: OAuth2ServiceProtocol {
 
 private extension OAuth2Service {
     func makeOAuthTokenRequest(with code: String) -> URLRequest? {
-        guard let baseURL = URL(string: OAuth2Constants.baseURL) else {
+        guard let baseURL = URL(string: Constants.baseURL) else {
             return nil
         }
         
         var components = URLComponents()
-        components.path = OAuth2Constants.tokenPath
+        components.path = Constants.tokenPath
         components.queryItems = [
             URLQueryItem(name: "client_id", value: OAuth2Constants.accessKey),
             URLQueryItem(name: "client_secret", value: OAuth2Constants.secretKey),
@@ -89,21 +92,13 @@ private extension OAuth2Service {
         
         return request
     }
-    
-    enum OAuth2ServiceError: LocalizedError {
-        case invalidURL
-        case decodingError
-        case unexpectedRequest
-        
-        var errorDescription: String? {
-            switch self {
-            case .invalidURL:
-                return "Некорректный url или компоненты запроса (✖╭╮✖)"
-            case .decodingError:
-                return "Ошибка при декодировании ответа (╯°□°）╯︵ ┻━┻"
-            case .unexpectedRequest:
-                return "Повторяющийся или не соответствующий логике запрос (⊙_☉)"
-            }
-        }
+}
+
+// MARK: - Constants
+
+private extension OAuth2Service {
+     enum Constants {
+         static let baseURL = "https://unsplash.com"
+         static let tokenPath = "/oauth/token"
     }
 }

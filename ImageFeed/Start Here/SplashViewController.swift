@@ -77,7 +77,7 @@ private extension SplashViewController {
             return
         }
 
-        oauth2Storage.reset()
+//        oauth2Storage.reset()
         switchToTabBarController()
     }
     
@@ -109,7 +109,7 @@ private extension SplashViewController {
                 print("^_^ token received successfully:", token)
                 self.showNextScreen()
             case .failure(let error):
-                print(">_<  Failed to fetch OAuth2 Token:", error.localizedDescription)
+                print(">_< Failed to fetch OAuth2 Token:", error.localizedDescription)
             }
         }
     }

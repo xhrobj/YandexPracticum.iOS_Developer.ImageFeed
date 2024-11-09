@@ -8,6 +8,8 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
+    private let profileService = ProfileService.shared
+    
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage())
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -63,12 +65,41 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         configureView()
+        fetchProfile()
     }
 }
 
 // MARK: - Private methods
 
 private extension ProfileViewController {
+    func fetchProfile() {
+        UIBlockingProgressHUD.show()
+        
+        profileService.fetchProfile{ [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let profile):
+                print("^_^ profile received successfully:", profile)
+                self.configureView(with: profile)
+            case .failure(let error):
+                print(">_< Error", error.localizedDescription)
+            }
+        }
+    }
+}
+
+// MARK: - Private methods - Layout
+
+private extension ProfileViewController {
+    func configureView(with profile: Profile) {
+        nameLabel.text = profile.fullName
+        loginLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
+    }
+    
     func configureView() {
         view.backgroundColor = UIColor(named: "YP Black")
         
