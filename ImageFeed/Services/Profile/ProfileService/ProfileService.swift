@@ -13,11 +13,15 @@ final class ProfileService {
     private(set) var networkClient: NetworkRouting
     private(set) var profile: Profile?
     
-    private let oauth2Storage = OAuth2TokenStorage()
+    private let oauth2Storage: OAuth2TokenStorageProtocol
     private var currentNetworkClientTask: URLSessionDataTask?
     
-    private init(networkClient: NetworkRouting = NetworkClient()) {
+    private init(
+        networkClient: NetworkRouting = NetworkClient(),
+        oauth2Storage: OAuth2TokenStorageProtocol = OAuth2TokenStorage()
+    ) {
         self.networkClient = networkClient
+        self.oauth2Storage = oauth2Storage
     }
 }
 
@@ -43,16 +47,8 @@ extension ProfileService: ProfileServiceProtocol {
             
             switch result {
             case .success(let data):
-
-//                if let jsonString = String(data: data, encoding: .utf8) {
-//                    print("Received JSON: \(jsonString)")
-//                } else {
-//                    print("Failed to convert data to string")
-//                }
-                    
                 let response: ProfileResponseDTO
-                
-                
+
                 do {
                     response = try JSONDecoder().decode(ProfileResponseDTO.self, from: data)
                 } catch {
@@ -82,12 +78,12 @@ extension ProfileService: ProfileServiceProtocol {
 
 private extension ProfileService {
     func makeGetMyProfileRequest() -> URLRequest? {
-        guard let baseURL = URL(string: Constants.baseURL) else {
+        guard let baseURL = URL(string: ProfileServiceConstants.baseURL) else {
             return nil
         }
         
         var components = URLComponents()
-        components.path = Constants.mePath
+        components.path = ProfileServiceConstants.mePath
         
         guard let url = components.url(relativeTo: baseURL) else {
             return nil
@@ -101,14 +97,5 @@ private extension ProfileService {
         }
         
         return request
-    }
-}
-
-// MARK: - Constants
-
-private extension ProfileService {
-     enum Constants {
-         static let baseURL = "https://api.unsplash.com"
-         static let mePath = "/me"
     }
 }

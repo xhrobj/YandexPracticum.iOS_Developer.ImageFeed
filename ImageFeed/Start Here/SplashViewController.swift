@@ -14,6 +14,7 @@ final class SplashViewController: UIViewController {
     private let oauth2Storage = OAuth2TokenStorage()
     private let oauth2Service = OAuth2Service.shared
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     
     // MARK: - View lifecycle
     
@@ -148,6 +149,7 @@ private extension SplashViewController {
             switch result {
             case .success(let profile):
                 print("^_^ profile received successfully:", profile)
+                self.profileImageService.fetchProfileImageURL(username: profile.username) { _ in }
                 self.showNextScreen()
                 
             case .failure(let error):
