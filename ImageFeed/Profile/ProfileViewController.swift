@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
@@ -174,8 +175,7 @@ private extension ProfileViewController {
     }
     
     func updateAvatar(with imageURL: URL) {
-        // TODO [Sprint 11] Обновите аватар, используя Kingfisher
-        print(imageURL)
+        avatarImageView.kf.setImage(with: imageURL)
     }
 }
 
