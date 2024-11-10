@@ -8,13 +8,21 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
-    private let tabBarControllerId = "TabBarControllerId"
-    private let showAuthSequeId = "ShowAuthSegue"
+    private let navigationAuthViewControllerStoryboardId = "AuthNavVCStoryboardID"
+    private let tabBarControllerStoryboardId = "TabBarControllerStoryboardID"
     
     private let oauth2Storage = OAuth2TokenStorage.shared
     private let oauth2Service = OAuth2Service.shared
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    
+    private let logoImageView: UIImageView = {
+        let image = UIImage(named: "practicum_logo_splash")
+        let imageView = UIImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
     
     // MARK: - View lifecycle
     
@@ -22,6 +30,12 @@ final class SplashViewController: UIViewController {
         super.viewWillAppear(animated)
         
         setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        configureView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,27 +61,6 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
 }
 
-// MARK: - Segue
-
-extension SplashViewController {
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == showAuthSequeId else {
-            super.prepare(for: segue, sender: sender)
-            return
-        }
-
-        guard
-            let navigationController = segue.destination as? UINavigationController,
-            let viewController = navigationController.viewControllers[0] as? AuthViewController
-        else {
-            assertionFailure("(•_•) Failed to prepare for \(segue.identifier ?? "¯∖_(ツ)_/¯")")
-            return
-        }
-        
-        viewController.delegate = self
-    }
-}
-
 // MARK: - Private methods
 
 private extension SplashViewController {
@@ -88,16 +81,28 @@ private extension SplashViewController {
     }
     
     func showAuth() {
-        performSegue(withIdentifier: showAuthSequeId, sender: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+
+        guard let navigationController = storyboard.instantiateViewController(
+            withIdentifier: navigationAuthViewControllerStoryboardId) as? UINavigationController,
+              let authViewController = navigationController.viewControllers.first as? AuthViewController
+        else {
+            fatalError("(•_•) Invalid Configuration")
+        }
+
+        navigationController.modalPresentationStyle = .fullScreen
+        authViewController.delegate = self
+        
+        present(navigationController, animated: true)
     }
     
     func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else {
-            fatalError("Invalid Configuration")
+            fatalError("(•_•) Invalid Configuration")
         }
         
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
-            .instantiateViewController(withIdentifier: tabBarControllerId)
+            .instantiateViewController(withIdentifier: tabBarControllerStoryboardId)
         window.rootViewController = tabBarController
     }
     
@@ -173,5 +178,24 @@ private extension SplashViewController {
                 }
             }
         }
+    }
+}
+
+// MARK: - Private methods - Layout
+
+private extension SplashViewController {
+    func configureView() {
+        view.backgroundColor = UIColor(named: "YP Black")
+        view.addSubview(logoImageView)
+        setupLogoImageView()
+    }
+    
+    func setupLogoImageView() {
+        NSLayoutConstraint.activate([
+            logoImageView.widthAnchor.constraint(equalToConstant: 75),
+            logoImageView.heightAnchor.constraint(equalToConstant: 78),
+            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
 }

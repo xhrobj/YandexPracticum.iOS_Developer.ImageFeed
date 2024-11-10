@@ -25,9 +25,11 @@ private extension TabBarController {
     func configure() {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         
-        let imagesListViewController = storyboard.instantiateViewController(
-            withIdentifier: imagesListViewControllerStoryboardId
-        )
+        guard let imagesListViewController = storyboard.instantiateViewController(
+            withIdentifier: imagesListViewControllerStoryboardId) as? ImagesListViewController
+        else {
+            fatalError("(•_•) Invalid Configuration")
+        }
         
         let profileViewController = ProfileViewController()
         profileViewController.tabBarItem = UITabBarItem(
