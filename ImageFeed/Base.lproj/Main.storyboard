@@ -276,22 +276,6 @@
             </objects>
             <point key="canvasLocation" x="-1698" y="889"/>
         </scene>
-        <!--Profile View Controller-->
-        <scene sceneID="535-Ah-L6m">
-            <objects>
-                <viewController storyboardIdentifier="ProfileVCStoryboardID" id="5cb-si-TsV" customClass="ProfileViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="4xg-ji-2hj">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="vj4-Vp-4nB"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="" image="tab_profile_active" id="OR3-vR-OZQ"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lqd-xn-JYV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-773" y="1434"/>
-        </scene>
         <!--Splash View Controller-->
         <scene sceneID="861-k3-YmG">
             <objects>
@@ -345,7 +329,6 @@
         <image name="practicum_logo_splash" width="75" height="78"/>
         <image name="share" width="51" height="51"/>
         <image name="tab_editorial_active" width="30" height="30"/>
-        <image name="tab_profile_active" width="30" height="30"/>
         <image name="unsplash_logo_white" width="60" height="60"/>
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

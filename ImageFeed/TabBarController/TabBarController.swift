@@ -9,7 +9,6 @@ import UIKit
  
 final class TabBarController: UITabBarController {
     private let imagesListViewControllerStoryboardId = "ImagesListVCStoryboardID"
-    private let profileViewControllerStoryboardId = "ProfileVCStoryboardID"
     
     // MARK: - View lifecycle
     
@@ -30,8 +29,11 @@ private extension TabBarController {
             withIdentifier: imagesListViewControllerStoryboardId
         )
         
-        let profileViewController = storyboard.instantiateViewController(
-            withIdentifier: profileViewControllerStoryboardId
+        let profileViewController = ProfileViewController()
+        profileViewController.tabBarItem = UITabBarItem(
+            title: "",
+            image: UIImage(named: "tab_profile_active"),
+            selectedImage: nil
         )
         
         self.viewControllers = [imagesListViewController, profileViewController]
