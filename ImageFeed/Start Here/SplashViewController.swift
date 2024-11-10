@@ -106,26 +106,15 @@ private extension SplashViewController {
         window.rootViewController = tabBarController
     }
     
-    func showAlert(for error: Error, retryHandler: @escaping () -> Void) {
+    func showAlert(for error: Error, _ methodDescription: String, retryHandler: @escaping () -> Void) {
         let alertController = UIAlertController(
-            title: "Ошибка",
-            message: "\(error.localizedDescription)",
+            title: "Что-то пошло не так",
+            message: "[\(methodDescription)] \(error.localizedDescription)",
             preferredStyle: .alert
         )
         alertController.addAction(UIAlertAction(title: "ОК", style: .default) { _ in
             retryHandler()
         })
-        
-        present(alertController, animated: true)
-    }
-    
-    func showAlert(for error: Error) {
-        let alertController = UIAlertController(
-            title: "Error",
-            message: "\(error.localizedDescription)",
-            preferredStyle: .alert
-        )
-        alertController.addAction(UIAlertAction(title: "OK", style: .default))
         
         present(alertController, animated: true)
     }
@@ -150,7 +139,7 @@ private extension SplashViewController {
                 
             case .failure(let error):
                 print(">_< Failed to fetch OAuth2 Token:", error.localizedDescription)
-                self.showAlert(for: error) { [weak self] in
+                self.showAlert(for: error, "Получение токена") { [weak self] in
                     self?.fetchOAuth2AccessToken(code)
                 }
             }
@@ -173,7 +162,7 @@ private extension SplashViewController {
                 
             case .failure(let error):
                 print(">_< Failed to fetch Profile:", error.localizedDescription)
-                self.showAlert(for: error) { [weak self] in
+                self.showAlert(for: error, "Получение профиля") { [weak self] in
                     self?.fetchProfile()
                 }
             }

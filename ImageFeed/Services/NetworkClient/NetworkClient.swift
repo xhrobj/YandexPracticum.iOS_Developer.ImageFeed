@@ -23,7 +23,7 @@ struct NetworkClient: NetworkRouting {
             
             if let response = response as? HTTPURLResponse, response.statusCode < 200 || response.statusCode >= 300 {
                 DispatchQueue.main.async {
-                    completion(.failure(NetworkClientError.invalidStatusCode))
+                    completion(.failure(NetworkClientError.invalidStatusCode(code: response.statusCode)))
                 }
                 return
             }
@@ -40,7 +40,9 @@ struct NetworkClient: NetworkRouting {
             do {
                 response = try JSONDecoder().decode(T.self, from: data)
             } catch {
-                completion(.failure(NetworkClientError.decodingError))
+                DispatchQueue.main.async {
+                    completion(.failure(NetworkClientError.decodingError(type: T.self)))
+                }
                 return
             }
             
@@ -56,18 +58,18 @@ struct NetworkClient: NetworkRouting {
 
 private extension NetworkClient {
     enum NetworkClientError: LocalizedError {
-        case invalidStatusCode
+        case invalidStatusCode(code: Int)
         case invalidData
-        case decodingError
+        case decodingError(type: Decodable.Type)
         
         var errorDescription: String? {
             switch self {
-            case .invalidStatusCode:
-                return "Код ответа сервера не в пределах ожидаемого диапазона (x_x)"
+            case .invalidStatusCode(let code):
+                return "Код ответа сервера \(code) не в пределах ожидаемого диапазона\n\n(x_x)"
             case .invalidData:
-                return "Ошибка при получении данных с сервера (x_x)"
-            case .decodingError:
-                return "Ошибка при декодировании ответа (╯°□°）╯︵ ┻━┻"
+                return "Ошибка при получении данных с сервера\n\n(x_x)"
+            case .decodingError(let type):
+                return "Ошибка при декодировании ответа типа \(type)\n\n(╯°□°）╯︵ ┻━┻"
             }
         }
     }
