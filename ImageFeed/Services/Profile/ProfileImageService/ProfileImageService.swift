@@ -41,7 +41,10 @@ extension ProfileImageService: ProfileImageServiceProtocol {
         guard currentNetworkClientTask == nil else { return }
 
         guard let request = makeGetMyProfileImageRequest(with: username) else {
-            completion(.failure(ServiceError.invalidURL))
+            let error = ServiceError.invalidURL
+            print("[ProfileImageService/fetchProfileImageLink]: ServiceError ->", error.localizedDescription)
+            completion(.failure(error))
+            
             return
         }
         
@@ -61,6 +64,7 @@ extension ProfileImageService: ProfileImageServiceProtocol {
                 completion(.success(profileImageURL))
                 
             case .failure(let error):
+                print("[ProfileImageService/fetchProfileImageLink]: NetworkError ->", error.localizedDescription)
                 completion(.failure(error))
             }
         }

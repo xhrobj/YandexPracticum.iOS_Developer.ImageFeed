@@ -30,7 +30,10 @@ extension OAuth2Service: OAuth2ServiceProtocol {
         assert(Thread.isMainThread)
         
         guard currentNetworkClientTask == nil || lastCode != code else {
-            completion(.failure(ServiceError.unexpectedRequest))
+            let error = ServiceError.unexpectedRequest
+            print("[OAuth2Service/fetchOAuth2Token]: ServiceError ->", error.localizedDescription)
+            completion(.failure(error))
+            
             return
         }
 
@@ -38,7 +41,10 @@ extension OAuth2Service: OAuth2ServiceProtocol {
         lastCode = code
 
         guard let request = makeOAuthTokenRequest(with: code) else {
-            completion(.failure(ServiceError.invalidURL))
+            let error = ServiceError.invalidURL
+            print("[OAuth2Service/fetchOAuth2Token]: ServiceError ->", error.localizedDescription)
+            completion(.failure(error))
+            
             return
         }
         
@@ -52,6 +58,7 @@ extension OAuth2Service: OAuth2ServiceProtocol {
                 completion(.success(response.accessToken))
                 
             case .failure(let error):
+                print("[OAuth2Service/fetchOAuth2Token]: NetworkError ->", error.localizedDescription)
                 completion(.failure(error))
             }
         }

@@ -138,7 +138,6 @@ private extension SplashViewController {
                 self.showNextScreen()
                 
             case .failure(let error):
-                print(">_< Failed to fetch OAuth2 Token:", error.localizedDescription)
                 self.showAlert(for: error, "Получение токена") { [weak self] in
                     self?.fetchOAuth2AccessToken(code)
                 }
@@ -156,12 +155,10 @@ private extension SplashViewController {
             
             switch result {
             case .success(let profile):
-                print("^_^ profile received successfully:", profile)
                 self.profileImageService.fetchProfileImageLink(username: profile.username) { _ in }
                 self.showNextScreen()
                 
             case .failure(let error):
-                print(">_< Failed to fetch Profile:", error.localizedDescription)
                 self.showAlert(for: error, "Получение профиля") { [weak self] in
                     self?.fetchProfile()
                 }

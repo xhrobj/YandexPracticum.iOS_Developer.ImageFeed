@@ -37,7 +37,10 @@ extension ProfileService: ProfileServiceProtocol {
         guard currentNetworkClientTask == nil else { return }
 
         guard let request = makeGetMyProfileRequest() else {
-            completion(.failure(ServiceError.invalidURL))
+            let error = ServiceError.invalidURL
+            print("[ProfileService/fetchProfile]: ServiceError ->", error.localizedDescription)
+            completion(.failure(error))
+            
             return
         }
         
@@ -61,6 +64,7 @@ extension ProfileService: ProfileServiceProtocol {
                 completion(.success(profile))
                 
             case .failure(let error):
+                print("[ProfileService/fetchProfile]: NetworkError ->", error.localizedDescription)
                 completion(.failure(error))
             }
         }

@@ -65,11 +65,11 @@ private extension NetworkClient {
         var errorDescription: String? {
             switch self {
             case .invalidStatusCode(let code):
-                return "Код ответа сервера \(code) не в пределах ожидаемого диапазона\n\n(x_x)"
+                return "Код ответа сервера \(code) не в пределах ожидаемого диапазона >_<"
             case .invalidData:
-                return "Ошибка при получении данных с сервера\n\n(x_x)"
+                return "Ошибка при получении данных с сервера (x_x)"
             case .decodingError(let type):
-                return "Ошибка при декодировании ответа типа \(type)\n\n(╯°□°）╯︵ ┻━┻"
+                return "Ошибка при декодировании ответа типа \(type) (╯°□°）╯︵ ┻━┻"
             }
         }
     }
