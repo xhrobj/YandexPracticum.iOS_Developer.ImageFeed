@@ -89,7 +89,7 @@ extension ImagesListViewController {
             let viewController = segue.destination as? SingleImageViewController,
             let indexPath = sender as? IndexPath
         else {
-            assertionFailure("Failed to prepare for \(segue.identifier ?? "¯∖_(ツ)_/¯")")
+            assertionFailure("(•_•) Failed to prepare for \(segue.identifier ?? "¯∖_(ツ)_/¯")")
             return
         }
 

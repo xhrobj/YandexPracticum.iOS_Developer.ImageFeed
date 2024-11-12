@@ -8,41 +8,68 @@
 import Foundation
 
 struct NetworkClient: NetworkRouting {
-    func fetch(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
+    func fetchObject<T: Decodable>(
+        for request: URLRequest,
+        completion: @escaping (Result<T, Error>) -> Void
+    ) -> URLSessionDataTask? {
+        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                handler(.failure(error))
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
                 return
             }
             
             if let response = response as? HTTPURLResponse, response.statusCode < 200 || response.statusCode >= 300 {
-                handler(.failure(NetworkClientError.invalidStatusCode))
+                DispatchQueue.main.async {
+                    completion(.failure(NetworkClientError.invalidStatusCode(code: response.statusCode)))
+                }
                 return
             }
             
             guard let data else {
-                handler(.failure(NetworkClientError.invalidData))
+                DispatchQueue.main.async {
+                    completion(.failure(NetworkClientError.invalidData))
+                }
                 return
             }
             
-            handler(.success(data))
+            let response: T
+
+            do {
+                response = try JSONDecoder().decode(T.self, from: data)
+            } catch {
+                DispatchQueue.main.async {
+                    completion(.failure(NetworkClientError.decodingError(type: T.self)))
+                }
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completion(.success(response))
+            }
         }
-        
         task.resume()
+        
+        return task
     }
 }
 
 private extension NetworkClient {
     enum NetworkClientError: LocalizedError {
-        case invalidStatusCode
+        case invalidStatusCode(code: Int)
         case invalidData
+        case decodingError(type: Decodable.Type)
         
         var errorDescription: String? {
             switch self {
-            case .invalidStatusCode:
-                return "Код ответа сервера не в пределах ожидаемого диапазона (x_x)"
+            case .invalidStatusCode(let code):
+                return "Код ответа сервера \(code) не в пределах ожидаемого диапазона >_<"
             case .invalidData:
                 return "Ошибка при получении данных с сервера (x_x)"
+            case .decodingError(let type):
+                return "Ошибка при декодировании ответа типа \(type) (╯°□°）╯︵ ┻━┻"
             }
         }
     }

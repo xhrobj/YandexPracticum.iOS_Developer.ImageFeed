@@ -6,5 +6,7 @@
 //
 
 protocol OAuth2ServiceProtocol {
+    var networkClient: NetworkRouting { get }
+    
     func fetchOAuth2Token(for code: String, completion: @escaping (Result<String, Error>) -> Void)
 }

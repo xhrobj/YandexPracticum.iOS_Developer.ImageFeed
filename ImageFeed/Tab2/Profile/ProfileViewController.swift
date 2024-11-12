@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
+    private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
+    
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage())
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -57,18 +61,48 @@ final class ProfileViewController: UIViewController {
         return button
     }()
     
+    private var avatarImageURL: URL? {
+        let imageLink = profileImageService.profileImageLink
+        
+        guard let imageLink else { return nil}
+        
+        return URL(string: imageLink)
+    }
+    
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         configureView()
+        configureView(with: profileService.profile)
+        updateAvatar()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        addObservers()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        removeObservers()
     }
 }
 
 // MARK: - Private methods
 
 private extension ProfileViewController {
+    func configureView(with profile: Profile?) {
+        guard let profile else { return }
+        
+        nameLabel.text = profile.fullName
+        loginLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
+    }
+    
     func configureView() {
         view.backgroundColor = UIColor(named: "YP Black")
         
@@ -132,7 +166,59 @@ private extension ProfileViewController {
         ])
     }
     
+    // MARK: -
+    
+    func updateAvatar() {
+        guard let avatarImageURL = avatarImageURL else { return }
+        
+        updateAvatar(with: avatarImageURL)
+    }
+    
+    func updateAvatar(with imageURL: URL) {
+        avatarImageView.kf.indicatorType = .activity
+        avatarImageView.kf.setImage(with: imageURL)
+    }
+}
+
+// MARK: - @objc Actions
+
+private extension ProfileViewController {
+    
     @objc
     func logoutButtonTapped() {
+    }
+    
+    @objc
+    func updateAvatar(notification: Notification) {
+        guard
+            let userInfo = notification.userInfo,
+            let profileImageLink = userInfo[ProfileImageService.notificationAvatarImageLinkKey] as? String,
+            let avatarImageURL = URL(string: profileImageLink)
+        else { return }
+        
+        updateAvatar(with: avatarImageURL)
+    }
+}
+
+// MARK: - Notifications
+
+private extension ProfileViewController {
+    private func addObservers() {
+        NotificationCenter.default
+            .addObserver(
+                self,
+                selector: #selector(updateAvatar(notification:)),
+                name: ProfileImageService.didChangeAvatarImageLinkNotification,
+                object: nil
+            )
+    }
+       
+    private func removeObservers() {
+        NotificationCenter.default
+            .removeObserver(
+                self,
+                name: ProfileImageService.didChangeAvatarImageLinkNotification,
+                object: nil
+            )
     }
 }

@@ -33,7 +33,7 @@ extension AuthViewController {
         }
 
         guard let viewController = segue.destination as? WebViewController else {
-            assertionFailure("Failed to prepare for \(segue.identifier ?? "¯∖_(ツ)_/¯")")
+            assertionFailure("(•_•) Failed to prepare for \(segue.identifier ?? "¯∖_(ツ)_/¯")")
             return
         }
 
@@ -46,10 +46,6 @@ extension AuthViewController {
 extension AuthViewController: WebViewControllerDelegate {
     func webViewController(_ vc: WebViewController, didAuthenticateWithCode code: String) {
         delegate?.didAuthenticateWithCode(code)
-    }
-
-    func webViewControllerDidCancel(_ vc: WebViewController) {
-        vc.dismiss(animated: true)
     }
 }
 
