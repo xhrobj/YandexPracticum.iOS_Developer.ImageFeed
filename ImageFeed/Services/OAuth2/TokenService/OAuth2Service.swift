@@ -8,15 +8,19 @@
 import Foundation
 
 final class OAuth2Service {
-    static let shared = OAuth2Service()
+    static let shared = OAuth2Service.create()
     
     private(set) var networkClient: NetworkRouting
     private var currentNetworkClientTask: URLSessionDataTask?
     
     private var lastCode: String?
     
-    private init(networkClient: NetworkRouting = NetworkClient()) {
+    private init(networkClient: NetworkRouting) {
         self.networkClient = networkClient
+    }
+    
+    static func create(networkClient: NetworkRouting = NetworkClient()) -> OAuth2Service {
+        return OAuth2Service(networkClient: networkClient)
     }
 }
 

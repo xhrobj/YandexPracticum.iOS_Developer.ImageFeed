@@ -8,7 +8,7 @@
 import Foundation
 
 final class ProfileService {
-    static let shared = ProfileService()
+    static let shared = ProfileService.create()
     
     private(set) var networkClient: NetworkRouting
     private(set) var profile: Profile?
@@ -16,12 +16,16 @@ final class ProfileService {
     private let oauth2Storage: OAuth2TokenStorageProtocol
     private var currentNetworkClientTask: URLSessionDataTask?
     
-    private init(
-        networkClient: NetworkRouting = NetworkClient(),
-        oauth2Storage: OAuth2TokenStorageProtocol = OAuth2TokenStorage.shared
-    ) {
+    private init(networkClient: NetworkRouting, oauth2Storage: OAuth2TokenStorageProtocol) {
         self.networkClient = networkClient
         self.oauth2Storage = oauth2Storage
+    }
+    
+    static func create(
+        networkClient: NetworkRouting = NetworkClient(),
+        oauth2Storage: OAuth2TokenStorageProtocol = OAuth2TokenStorage.shared
+    ) -> ProfileService {
+        return ProfileService(networkClient: networkClient, oauth2Storage: oauth2Storage)
     }
 }
 
