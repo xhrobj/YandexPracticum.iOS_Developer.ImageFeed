@@ -28,7 +28,8 @@ private extension TabBarController {
         guard let imagesListViewController = storyboard.instantiateViewController(
             withIdentifier: imagesListViewControllerStoryboardId) as? ImagesListViewController
         else {
-            fatalError("(•_•) Invalid Configuration")
+            assertionFailure("(•_•) Invalid Configuration")
+            return
         }
         
         let profileViewController = ProfileViewController()

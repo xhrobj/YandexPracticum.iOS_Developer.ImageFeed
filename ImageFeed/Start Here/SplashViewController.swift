@@ -87,7 +87,8 @@ private extension SplashViewController {
             withIdentifier: navigationAuthViewControllerStoryboardId) as? UINavigationController,
               let authViewController = navigationController.viewControllers.first as? AuthViewController
         else {
-            fatalError("(•_•) Invalid Configuration")
+            assertionFailure("(•_•) Invalid Configuration")
+            return
         }
 
         navigationController.modalPresentationStyle = .fullScreen
@@ -98,7 +99,8 @@ private extension SplashViewController {
     
     func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else {
-            fatalError("(•_•) Invalid Configuration")
+            assertionFailure("(•_•) Invalid Configuration")
+            return
         }
         
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
@@ -106,10 +108,10 @@ private extension SplashViewController {
         window.rootViewController = tabBarController
     }
     
-    func showAlert(for error: Error, _ methodDescription: String, retryHandler: @escaping () -> Void) {
+    func showAlert(for error: Error, retryHandler: @escaping () -> Void) {
         let alertController = UIAlertController(
-            title: "Что-то пошло не так",
-            message: "[\(methodDescription)] \(error.localizedDescription)",
+            title: "Что-то пошло не так(",
+            message: "Не удалось войти в систему\n\n" + error.localizedDescription,
             preferredStyle: .alert
         )
         alertController.addAction(UIAlertAction(title: "ОК", style: .default) { _ in
@@ -138,7 +140,7 @@ private extension SplashViewController {
                 self.showNextScreen()
                 
             case .failure(let error):
-                self.showAlert(for: error, "Получение токена") { [weak self] in
+                self.showAlert(for: error) { [weak self] in
                     self?.fetchOAuth2AccessToken(code)
                 }
             }
@@ -159,7 +161,7 @@ private extension SplashViewController {
                 self.showNextScreen()
                 
             case .failure(let error):
-                self.showAlert(for: error, "Получение профиля") { [weak self] in
+                self.showAlert(for: error) { [weak self] in
                     self?.fetchProfile()
                 }
             }
