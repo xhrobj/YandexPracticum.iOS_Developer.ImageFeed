@@ -10,10 +10,10 @@ import Foundation
 final class ProfileService {
     static let shared = ProfileService.create()
     
-    private(set) var networkClient: NetworkRouting
     private(set) var profile: Profile?
     
     private let oauth2Storage: OAuth2TokenStorageProtocol
+    private let networkClient: NetworkRouting
     private var currentNetworkClientTask: URLSessionDataTask?
     
     private init(networkClient: NetworkRouting, oauth2Storage: OAuth2TokenStorageProtocol) {

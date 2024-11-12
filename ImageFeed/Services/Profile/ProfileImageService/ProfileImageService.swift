@@ -13,11 +13,10 @@ final class ProfileImageService {
     
     static let shared = ProfileImageService.create()
     
-    private(set) var networkClient: NetworkRouting
     private(set) var profileImageLink: String?
     
     private let oauth2Storage: OAuth2TokenStorageProtocol
-    
+    private let networkClient: NetworkRouting
     private var currentNetworkClientTask: URLSessionDataTask?
 
     private init(networkClient: NetworkRouting, oauth2Storage: OAuth2TokenStorageProtocol) {
