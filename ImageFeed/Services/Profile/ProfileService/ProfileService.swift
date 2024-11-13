@@ -79,12 +79,12 @@ extension ProfileService: ProfileServiceProtocol {
 
 private extension ProfileService {
     func makeGetMyProfileRequest() -> URLRequest? {
-        guard let baseURL = URL(string: ProfileServiceConstants.baseURL) else {
+        guard let baseURL = URL(string: ServiceConstants.baseURL) else {
             return nil
         }
         
         var components = URLComponents()
-        components.path = ProfileServiceConstants.mePath
+        components.path = ServiceConstants.mePath
         
         guard let url = components.url(relativeTo: baseURL) else {
             return nil

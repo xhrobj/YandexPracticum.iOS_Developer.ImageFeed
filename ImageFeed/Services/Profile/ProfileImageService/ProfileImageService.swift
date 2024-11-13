@@ -78,12 +78,12 @@ extension ProfileImageService: ProfileImageServiceProtocol {
 
 private extension ProfileImageService {
     func makeGetMyProfileImageRequest(with username: String) -> URLRequest? {
-        guard let baseURL = URL(string: ProfileServiceConstants.baseURL) else {
+        guard let baseURL = URL(string: ServiceConstants.baseURL) else {
             return nil
         }
         
         var components = URLComponents()
-        components.path = ProfileServiceConstants.usersPath + username
+        components.path = ServiceConstants.usersPath + username
         
         guard let url = components.url(relativeTo: baseURL) else {
             return nil

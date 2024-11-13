@@ -26,7 +26,7 @@
 		6F265F852CDFAE9800D65996 /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F265F842CDFAE9800D65996 /* ProfileImageService.swift */; };
 		6F265F892CDFB83E00D65996 /* ProfileImageDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F265F882CDFB83E00D65996 /* ProfileImageDTO.swift */; };
 		6F265F8B2CDFB8C800D65996 /* UserResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F265F8A2CDFB8C800D65996 /* UserResponseDTO.swift */; };
-		6F265F902CDFBEF500D65996 /* ProfileServiceConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F265F8F2CDFBEF500D65996 /* ProfileServiceConstants.swift */; };
+		6F265F902CDFBEF500D65996 /* ServiceConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F265F8F2CDFBEF500D65996 /* ServiceConstants.swift */; };
 		6F265F932CDFEFDE00D65996 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 6F265F922CDFEFDE00D65996 /* Kingfisher */; };
 		6F265F962CDFF0FE00D65996 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 6F265F952CDFF0FE00D65996 /* SwiftKeychainWrapper */; };
 		6F265F982CE0BF0000D65996 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F265F972CE0BF0000D65996 /* TabBarController.swift */; };
@@ -73,7 +73,7 @@
 		6F265F842CDFAE9800D65996 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 		6F265F882CDFB83E00D65996 /* ProfileImageDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageDTO.swift; sourceTree = "<group>"; };
 		6F265F8A2CDFB8C800D65996 /* UserResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponseDTO.swift; sourceTree = "<group>"; };
-		6F265F8F2CDFBEF500D65996 /* ProfileServiceConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServiceConstants.swift; sourceTree = "<group>"; };
+		6F265F8F2CDFBEF500D65996 /* ServiceConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceConstants.swift; sourceTree = "<group>"; };
 		6F265F972CE0BF0000D65996 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		6F4EE2AF2CE3D7DE00BC9B50 /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
 		6F4EE2B12CE3D82500BC9B50 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
@@ -194,7 +194,6 @@
 		6F265F8E2CDFBE4200D65996 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				6F265F8F2CDFBEF500D65996 /* ProfileServiceConstants.swift */,
 				6F265F732CDE21C200D65996 /* ProfileService */,
 				6F265F812CDFAA2400D65996 /* ProfileImageService */,
 			);
@@ -284,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				6F265F7D2CDF4D9A00D65996 /* ServiceError.swift */,
+				6F265F8F2CDFBEF500D65996 /* ServiceConstants.swift */,
 				6FC546192CDA78D8008DFB5C /* OAuth2 */,
 				6F265F8E2CDFBE4200D65996 /* Profile */,
 				6F4EE2B92CE3DDD700BC9B50 /* Feed */,
@@ -454,7 +454,7 @@
 				6FC5462A2CDBD8FF008DFB5C /* SplashViewController.swift in Sources */,
 				6FC546212CDA9169008DFB5C /* OAuth2TokenStorage.swift in Sources */,
 				6FC545F72CD2BAF8008DFB5C /* SingleImageViewController.swift in Sources */,
-				6F265F902CDFBEF500D65996 /* ProfileServiceConstants.swift in Sources */,
+				6F265F902CDFBEF500D65996 /* ServiceConstants.swift in Sources */,
 				6FC546182CDA7412008DFB5C /* NetworkHTTPMethod.swift in Sources */,
 				6FC546142CDA480E008DFB5C /* NetworkClient.swift in Sources */,
 				6F265F852CDFAE9800D65996 /* ProfileImageService.swift in Sources */,

@@ -10,6 +10,9 @@ import UIKit
 final class ImagesListViewController: UIViewController {
     private let showSingleImageSequeId = "ShowSingleImageSeque"
     
+    private let imagesListService = ImagesListService.shared
+//    private var imageListServiceObserver: NSObjectProtocol?
+    
     private let photosName: [String] = Array(0...19).map { String($0) }
     
     private lazy var dateFormatter: DateFormatter = {
@@ -56,6 +59,12 @@ extension ImagesListViewController: UITableViewDataSource {
 // MARK: - <UITableViewDelegate>
 
 extension ImagesListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard indexPath.row + 1 >= imagesListService.photos.count else { return }
+        
+        imagesListService.fetchPhotosNextPage()
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         var imageViewSize = CGSizeZero
         
