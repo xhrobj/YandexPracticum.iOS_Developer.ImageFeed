@@ -8,7 +8,7 @@
 import UIKit
 
 final class SingleImageViewController: UIViewController {
-    var image: UIImage?
+    var imageLink: String?
     
     // MARK: - @IBOutlets
     
@@ -22,7 +22,7 @@ final class SingleImageViewController: UIViewController {
     }
     
     @IBAction private func shareButtonTapped() {
-        guard let image else { return }
+        guard let image = imageView.image else { return }
 
         let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         present(activityViewController, animated: true, completion: nil)
@@ -57,12 +57,20 @@ private extension SingleImageViewController {
     }
     
     func configureImageView() {
-        guard let image else { return }
-
-        imageView.image = image
-        imageView.frame.size = image.size
-
-        rescaleAndCenterImageInScrollView(image: image)
+        guard let imageLink = self.imageLink else { return }
+        
+        let placeholder = UIImage(named: "image_placeholder")
+        imageView.kf.setImage(with: URL(string: imageLink), placeholder: placeholder) { [weak self] _ in
+            guard let self = self else { return }
+            
+            imageView.contentMode = .scaleAspectFit
+            imageView.kf.indicatorType = .none
+            
+            guard let image = imageView.image else { return }
+            
+            imageView.frame.size = image.size
+            rescaleAndCenterImageInScrollView(image: image)
+        }
     }
 
     private func rescaleAndCenterImageInScrollView(image: UIImage) {

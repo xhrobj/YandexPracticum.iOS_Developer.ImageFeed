@@ -5,10 +5,12 @@
 //  Created by Mikhail Eliseev on 12.11.2024.
 //
 
+import Foundation
+
 struct PhotoDTO: Decodable {
     let id: String
     let width, height: Int
-    let createdAt: String?
+    let createdAt: Date?
     let description: String?
     let likedByUser: Bool
     let urls: UrlsDTO

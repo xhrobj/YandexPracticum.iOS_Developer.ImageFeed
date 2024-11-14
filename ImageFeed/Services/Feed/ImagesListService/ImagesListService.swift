@@ -62,21 +62,9 @@ extension ImagesListService: ImagesListServiceProtocol {
             
             switch result {
             case .success(let response):
-                response.forEach { photoDTO in
-                    let photo = Photo(
-                        id: photoDTO.id,
-                        size: CGSize(width: photoDTO.width, height: photoDTO.height),
-                        
-                        // TODO:
-                        createdAt: nil,
-                        
-                        welcomeDescription: photoDTO.description,
-                        thumbImageLink: photoDTO.urls.thumb,
-                        largeImageLink: photoDTO.urls.full,
-                        isLiked: photoDTO.likedByUser
-                    )
-                    self.photos.append(photo)
-                }
+                let photos = response.map { Photo($0) }
+                
+                self.photos.append(contentsOf: photos)
                 self.lastLoadedPageNumber = nextPageNumber
                 
                 self.sendNotification()

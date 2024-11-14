@@ -12,4 +12,3 @@ protocol ImagesListServiceProtocol {
 
     func fetchPhotosNextPage()
 }
-

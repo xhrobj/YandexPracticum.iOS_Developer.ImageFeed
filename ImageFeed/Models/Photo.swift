@@ -12,7 +12,34 @@ struct Photo {
     let size: CGSize
     let createdAt: Date?
     let welcomeDescription: String?
-    let thumbImageLink: String
+    let tinyImageLink: String
     let largeImageLink: String
     let isLiked: Bool
+    
+    init(id: String,
+         size: CGSize,
+         createdAt: Date?,
+         welcomeDescription: String?,
+         tinyImageLink: String,
+         largeImageLink: String,
+         isLiked: Bool
+    ) {
+        self.id = id
+        self.size = size
+        self.createdAt = createdAt
+        self.welcomeDescription = welcomeDescription
+        self.tinyImageLink = tinyImageLink
+        self.largeImageLink = largeImageLink
+        self.isLiked = isLiked
+    }
+
+    init(_ photo: PhotoDTO) {
+        self.id = photo.id
+        self.size = CGSize(width: photo.width, height: photo.height)
+        self.createdAt = photo.createdAt
+        self.welcomeDescription = photo.description
+        self.tinyImageLink = photo.urls.thumb
+        self.largeImageLink = photo.urls.full
+        self.isLiked = photo.likedByUser
+    }
 }

@@ -11,9 +11,8 @@ final class ImagesListViewController: UIViewController {
     private let showSingleImageSequeId = "ShowSingleImageSeque"
     
     private let imagesListService = ImagesListService.shared
-//    private var imageListServiceObserver: NSObjectProtocol?
     
-    private let photosName: [String] = Array(0...19).map { String($0) }
+    private var photos: [Photo] = []
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -33,6 +32,19 @@ final class ImagesListViewController: UIViewController {
         super.viewDidLoad()
         
         configureTableView()
+        startFetchFeed()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        addObservers()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        removeObservers()
     }
 }
 
@@ -40,7 +52,7 @@ final class ImagesListViewController: UIViewController {
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        photosName.count
+        photos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -62,20 +74,20 @@ extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard indexPath.row + 1 >= imagesListService.photos.count else { return }
         
-        imagesListService.fetchPhotosNextPage()
+        fetchNextBatchOfPhotos()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         var imageViewSize = CGSizeZero
-        
-        guard let image = UIImage(named: photoImageName(for: indexPath)) else {
-            return imageViewSize.height
-        }
+
+        let photo = photo(for: indexPath)
+        imageViewSize.height = photo.size.height
         
         let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         imageViewSize.width = tableView.bounds.width - (imageInsets.left + imageInsets.right)
-        let scale = imageViewSize.width / image.size.width
-        imageViewSize.height = image.size.height * scale + imageInsets.top + imageInsets.bottom
+        
+        let scale = imageViewSize.width / photo.size.width
+        imageViewSize.height = photo.size.height * scale + imageInsets.top + imageInsets.bottom
         
         return imageViewSize.height
     }
@@ -102,8 +114,8 @@ extension ImagesListViewController {
             return
         }
 
-        let image = UIImage(named: photosName[indexPath.row])
-        viewController.image = image
+        let photo = photo(for: indexPath)
+        viewController.imageLink = photo.largeImageLink
     }
 }
 
@@ -118,13 +130,32 @@ private extension ImagesListViewController {
     }
     
     func configureCell(_ cell: ImagesListCell, with indexPath: IndexPath) {
-        guard let image = UIImage(named: photoImageName(for: indexPath)) else { return }
+        let photo = photo(for: indexPath)
         
-        cell.configureCell(
-            with: image,
-            dateText: dateFormatter.string(from: Date()),
-            favoritesButtonImageName: favoritesButtonImageName(for: indexPath)
-        )
+        cell.favoritesButton.setImage(UIImage(named: favoritesButtonImageName(for: indexPath)), for: .normal) // FIXME:
+
+        if let photoCreatedAt = photo.createdAt {
+            cell.dateLabel.text = dateFormatter.string(from: photoCreatedAt)
+        } else {
+            cell.dateLabel.text = ""
+        }
+
+        let placeholder = UIImage(named: "image_placeholder")
+        
+        cell.backgroundImageView.contentMode = .center
+        cell.backgroundImageView.image = placeholder
+        
+        cell.backgroundImageView.kf.indicatorType = .activity
+        cell.backgroundImageView.kf.setImage(
+            with: URL(string: photo.tinyImageLink),
+            placeholder: placeholder
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            
+            cell.backgroundImageView.contentMode = .scaleAspectFill
+            cell.backgroundImageView.kf.indicatorType = .none
+            self.tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
     }
     
     func favoritesButtonImageName(for indexPath: IndexPath) -> String {
@@ -135,7 +166,58 @@ private extension ImagesListViewController {
         indexPath.row % 2 == 0
     }
     
-    func photoImageName(for indexPath: IndexPath) -> String {
-        photosName[indexPath.row]
+    func photo(for indexPath: IndexPath) -> Photo {
+        ImagesListService.shared.photos[indexPath.row]
+    }
+    
+    func startFetchFeed() {
+        fetchNextBatchOfPhotos()
+    }
+    
+    func fetchNextBatchOfPhotos() {
+        imagesListService.fetchPhotosNextPage()
+    }
+}
+
+// MARK: - @objc Actions
+
+private extension ImagesListViewController {
+
+    @objc
+    func updateFeed() {
+        let previousCount = photos.count
+        photos = imagesListService.photos
+        let currentCount = photos.count
+
+        guard previousCount != currentCount else { return }
+        
+        let indexPaths = (previousCount..<currentCount).map { IndexPath(row: $0, section: 0) }
+        
+        tableView.performBatchUpdates {
+            tableView.insertRows(at: indexPaths, with: .automatic)
+        } completion: { _ in }
+    }
+}
+
+// MARK: - Notifications
+
+private extension ImagesListViewController {
+    private func addObservers() {
+        NotificationCenter.default
+            .addObserver(
+                self,
+                selector: #selector(updateFeed),
+                name: ImagesListService.didChangeNotification,
+                object: nil
+            )
+    }
+    
+    private func removeObservers() {
+        NotificationCenter.default
+            .removeObserver(
+                self,
+                name: ImagesListService.didChangeNotification,
+                object: nil
+            )
     }
 }
