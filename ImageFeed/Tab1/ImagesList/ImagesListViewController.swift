@@ -173,35 +173,13 @@ private extension ImagesListViewController {
     
     func configureCell(_ cell: ImagesListCell, with indexPath: IndexPath) {
         let photo = photo(for: indexPath)
-        
-        cell.favoritesButton.setImage(UIImage(named: favoritesButtonImageName(for: photo)), for: .normal)
 
+        var dateText = ""
         if let photoCreatedAt = photo.createdAt {
-            cell.dateLabel.text = dateFormatter.string(from: photoCreatedAt)
-        } else {
-            cell.dateLabel.text = ""
+            dateText = dateFormatter.string(from: photoCreatedAt)
         }
 
-        let placeholder = UIImage(named: "image_placeholder")
-        
-        cell.backgroundImageView.contentMode = .center
-        cell.backgroundImageView.image = placeholder
-        
-        cell.backgroundImageView.kf.indicatorType = .activity
-        cell.backgroundImageView.kf.setImage(
-            with: URL(string: photo.tinyImageLink),
-            placeholder: placeholder
-        ) { [weak self] _ in
-            guard let self = self else { return }
-            
-            cell.backgroundImageView.contentMode = .scaleAspectFill
-            cell.backgroundImageView.kf.indicatorType = .none
-            self.tableView.reloadRows(at: [indexPath], with: .automatic)
-        }
-    }
-    
-    func favoritesButtonImageName(for photo: Photo) -> String {
-        photo.isLiked ? "favorites_active" : "favorites"
+        cell.configureCell(with: photo.tinyImageLink, dateText: dateText, isLiked: photo.isLiked)
     }
     
     func photo(for indexPath: IndexPath) -> Photo {
