@@ -83,7 +83,7 @@ private extension ProfileImageService {
         }
         
         var components = URLComponents()
-        components.path = ServiceConstants.usersPath + username
+        components.path.append(contentsOf: ServiceConstants.usersPath + "/" + username)
         
         guard let url = components.url(relativeTo: baseURL) else {
             return nil

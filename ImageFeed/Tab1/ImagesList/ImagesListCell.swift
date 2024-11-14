@@ -11,6 +11,8 @@ import Kingfisher
 final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = "ImagesListCellRID"
     
+    weak var delegate: ImagesListCellDelegate?
+    
     // MARK: - @IBOutlets
     
     @IBOutlet var backgroundImageView: UIImageView!
@@ -21,5 +23,11 @@ final class ImagesListCell: UITableViewCell {
         super.prepareForReuse()
         
         backgroundImageView.kf.cancelDownloadTask()
+    }
+    
+    // MARK: - @IBActions
+    
+    @IBAction private func favoritesButtonTapped() {
+        delegate?.didTapLike(cell: self)
     }
 }

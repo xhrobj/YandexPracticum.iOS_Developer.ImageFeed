@@ -16,7 +16,9 @@ final class ImagesListService {
     
     private let oauth2Storage: OAuth2TokenStorageProtocol
     private let networkClient: NetworkRouting
-    private var currentNetworkClientTask: URLSessionDataTask?
+    
+    private var currentNetworkClientFetchPhotosTask: URLSessionDataTask?
+    private var currentNetworkClientChangeLikeTask: URLSessionDataTask?
     private var lastLoadedPageNumber = 0
     
     private init(networkClient: NetworkRouting, oauth2Storage: OAuth2TokenStorageProtocol) {
@@ -35,13 +37,13 @@ final class ImagesListService {
 // MARK: - <ImagesListServiceProtocol>
 
 extension ImagesListService: ImagesListServiceProtocol {
-    
+
     // NOTE: https://unsplash.com/documentation#list-photos
     
     func fetchPhotosNextPage() {
         assert(Thread.isMainThread)
         
-        guard currentNetworkClientTask == nil else { return }
+        guard currentNetworkClientFetchPhotosTask == nil else { return }
         
         let nextPageNumber = lastLoadedPageNumber + 1
         
@@ -52,13 +54,13 @@ extension ImagesListService: ImagesListServiceProtocol {
             return
         }
         
-        currentNetworkClientTask = networkClient.fetchObject(
+        currentNetworkClientFetchPhotosTask = networkClient.fetchObject(
             for: request
         ) { [weak self] (result: Result<[PhotoDTO], Error>) in
             
             guard let self = self else { return }
             
-            self.currentNetworkClientTask = nil
+            self.currentNetworkClientFetchPhotosTask = nil
             
             switch result {
             case .success(let response):
@@ -71,6 +73,52 @@ extension ImagesListService: ImagesListServiceProtocol {
                 
             case .failure(let error):
                 print("[ImagesListService/fetchPhotosNextPage]: NetworkError ->", error.localizedDescription)
+            }
+        }
+    }
+    
+    // NOTE: https://unsplash.com/documentation#like-a-photo
+    // NOTE: https://unsplash.com/documentation#unlike-a-photo
+    
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, any Error>) -> Void) {
+        assert(Thread.isMainThread)
+        
+        guard currentNetworkClientChangeLikeTask == nil else { return }
+        
+        guard let request = makeChangeLiketRequest(with: photoId, isLike) else {
+            let error = ServiceError.invalidURL
+            print("[ImagesListService/changeLike]: ServiceError ->", error.localizedDescription)
+            
+            return
+        }
+        
+        currentNetworkClientChangeLikeTask = networkClient.fetchObject(
+            for: request
+        ) { [weak self] (result: Result<LikeResponseDTO, Error>) in
+            
+            guard let self = self else { return }
+            
+            self.currentNetworkClientChangeLikeTask = nil
+            
+            switch result {
+            case .success(_):
+                if let photoIndex = self.photos.firstIndex(where: { $0.id == photoId }) {
+                    let photo = self.photos[photoIndex]
+                    self.photos[photoIndex] = Photo(
+                        id: photo.id,
+                        size: photo.size,
+                        createdAt: photo.createdAt,
+                        welcomeDescription: photo.welcomeDescription,
+                        tinyImageLink: photo.tinyImageLink,
+                        largeImageLink: photo.largeImageLink,
+                        isLiked: !photo.isLiked)
+                }
+                
+                completion(.success(()))
+                
+            case .failure(let error):
+                print("[ImagesListService/changeLike]: NetworkError ->", error.localizedDescription)
+                completion(.failure(error))
             }
         }
     }
@@ -97,6 +145,31 @@ private extension ImagesListService {
         
         var request = URLRequest(url: url)
         request.httpMethod = NetworkHTTPMethod.GET.rawValue
+        
+        if let token = oauth2Storage.token {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+
+        return request
+    }
+    
+    func makeChangeLiketRequest(with photoId: String, _ isLike: Bool) -> URLRequest? {
+        guard let baseURL = URL(string: ServiceConstants.baseURL) else {
+            return nil
+        }
+        
+        let path = ServiceConstants.likePathTemplate.replacingOccurrences(of: "{photo_id}", with: photoId)
+        let method = isLike ? NetworkHTTPMethod.POST : NetworkHTTPMethod.DELETE
+        
+        var components = URLComponents()
+        components.path = path
+
+        guard let url = components.url(relativeTo: baseURL) else {
+            return nil
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = method.rawValue
         
         if let token = oauth2Storage.token {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

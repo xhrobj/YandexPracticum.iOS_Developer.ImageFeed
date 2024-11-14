@@ -8,4 +8,5 @@
 enum NetworkHTTPMethod: String {
     case POST
     case GET
+    case DELETE
 }

@@ -62,6 +62,7 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        imageListCell.delegate = self
         configureCell(imageListCell, with: indexPath)
         
         return imageListCell
@@ -94,6 +95,46 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: showSingleImageSequeId, sender: indexPath)
+    }
+}
+
+// MARK: - <ImagesListCellDelegate>
+
+extension ImagesListViewController: ImagesListCellDelegate {
+    func didTapLike(cell: ImagesListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        
+        let photo = photo(for: indexPath)
+        
+        UIBlockingProgressHUD.show()
+        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            guard let self = self else { return }
+            
+            switch result {
+            case .success:
+                guard let photoIndex = self.photos.firstIndex(where: { $0.id == photo.id }) else {
+                    return
+                }
+                
+                let photo = self.photos[photoIndex]
+                self.photos[photoIndex] = Photo(
+                    id: photo.id,
+                    size: photo.size,
+                    createdAt: photo.createdAt,
+                    welcomeDescription: photo.welcomeDescription,
+                    tinyImageLink: photo.tinyImageLink,
+                    largeImageLink: photo.largeImageLink,
+                    isLiked: !photo.isLiked
+                )
+                
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                
+            case .failure(let error):
+                self.showAlert(for: error)
+            }
+        }
     }
 }
 
@@ -132,7 +173,7 @@ private extension ImagesListViewController {
     func configureCell(_ cell: ImagesListCell, with indexPath: IndexPath) {
         let photo = photo(for: indexPath)
         
-        cell.favoritesButton.setImage(UIImage(named: favoritesButtonImageName(for: indexPath)), for: .normal) // FIXME:
+        cell.favoritesButton.setImage(UIImage(named: favoritesButtonImageName(for: photo)), for: .normal)
 
         if let photoCreatedAt = photo.createdAt {
             cell.dateLabel.text = dateFormatter.string(from: photoCreatedAt)
@@ -158,12 +199,8 @@ private extension ImagesListViewController {
         }
     }
     
-    func favoritesButtonImageName(for indexPath: IndexPath) -> String {
-        isFavorites(indexPath) ? "favorites_active" : "favorites"
-    }
-    
-    func isFavorites(_ indexPath: IndexPath) -> Bool {
-        indexPath.row % 2 == 0
+    func favoritesButtonImageName(for photo: Photo) -> String {
+        photo.isLiked ? "favorites_active" : "favorites"
     }
     
     func photo(for indexPath: IndexPath) -> Photo {
@@ -176,6 +213,17 @@ private extension ImagesListViewController {
     
     func fetchNextBatchOfPhotos() {
         imagesListService.fetchPhotosNextPage()
+    }
+    
+    func showAlert(for error: Error) {
+        let alertController = UIAlertController(
+            title: "Что-то пошло не так(",
+            message: error.localizedDescription,
+            preferredStyle: .alert
+        )
+        alertController.addAction(UIAlertAction(title: "ОК", style: .default))
+        
+        present(alertController, animated: true)
     }
 }
 
