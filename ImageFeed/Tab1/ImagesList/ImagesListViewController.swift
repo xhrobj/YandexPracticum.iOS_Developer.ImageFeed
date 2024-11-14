@@ -130,7 +130,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
                     isLiked: !isLiked
                 )
                 
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                cell.setIsLiked(self.photos[photoIndex].isLiked)
                 
             case .failure(let error):
                 self.showAlert(for: error)
