@@ -105,9 +105,10 @@ extension ImagesListViewController: ImagesListCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         
         let photo = photo(for: indexPath)
+        let isLiked = photo.isLiked
         
         UIBlockingProgressHUD.show()
-        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
+        imagesListService.changeLike(photoId: photo.id, isLike: !isLiked) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
             
             guard let self = self else { return }
@@ -126,7 +127,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
                     welcomeDescription: photo.welcomeDescription,
                     tinyImageLink: photo.tinyImageLink,
                     largeImageLink: photo.largeImageLink,
-                    isLiked: !photo.isLiked
+                    isLiked: !isLiked
                 )
                 
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
