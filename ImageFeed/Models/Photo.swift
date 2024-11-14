@@ -36,7 +36,7 @@ struct Photo {
     init(_ photo: PhotoDTO) {
         self.id = photo.id
         self.size = CGSize(width: photo.width, height: photo.height)
-        self.createdAt = photo.createdAt
+        self.createdAt = ISO8601DateFormatter().date(from: photo.createdAt ?? "")
         self.welcomeDescription = photo.description
         self.tinyImageLink = photo.urls.thumb
         self.largeImageLink = photo.urls.full

@@ -38,9 +38,7 @@ struct NetworkClient: NetworkRouting {
             let response: T
 
             do {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
-                response = try decoder.decode(T.self, from: data)
+                response = try JSONDecoder().decode(T.self, from: data)
             } catch {
                 DispatchQueue.main.async {
                     completion(.failure(NetworkClientError.decodingError(type: T.self)))
