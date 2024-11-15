@@ -16,6 +16,11 @@ struct Photo {
     let largeImageLink: String
     let isLiked: Bool
     
+    private static let dateFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        return formatter
+    }()
+    
     init(id: String,
          size: CGSize,
          createdAt: Date?,
@@ -36,7 +41,7 @@ struct Photo {
     init(_ photo: PhotoDTO) {
         self.id = photo.id
         self.size = CGSize(width: photo.width, height: photo.height)
-        self.createdAt = ISO8601DateFormatter().date(from: photo.createdAt ?? "")
+        self.createdAt = Photo.dateFormatter.date(from: photo.createdAt ?? "")
         self.welcomeDescription = photo.description
         self.tinyImageLink = photo.urls.thumb
         self.largeImageLink = photo.urls.full

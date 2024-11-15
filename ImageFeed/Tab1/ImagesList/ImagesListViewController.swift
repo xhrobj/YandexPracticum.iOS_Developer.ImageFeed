@@ -211,7 +211,7 @@ private extension ImagesListViewController {
 private extension ImagesListViewController {
 
     @objc
-    func updateFeed() {
+    func updateTableViewAnimated() {
         let previousCount = photos.count
         photos = imagesListService.photos
         let currentCount = photos.count
@@ -233,7 +233,7 @@ private extension ImagesListViewController {
         NotificationCenter.default
             .addObserver(
                 self,
-                selector: #selector(updateFeed),
+                selector: #selector(updateTableViewAnimated),
                 name: ImagesListService.didChangeNotification,
                 object: nil
             )
