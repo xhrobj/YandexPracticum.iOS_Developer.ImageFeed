@@ -15,9 +15,9 @@ final class ImagesListCell: UITableViewCell {
     
     // MARK: - @IBOutlets
     
-    @IBOutlet var backgroundImageView: UIImageView!
-    @IBOutlet var dateLabel: UILabel!
-    @IBOutlet var favoritesButton: UIButton!
+    @IBOutlet private var backgroundImageView: UIImageView!
+    @IBOutlet private var dateLabel: UILabel!
+    @IBOutlet private var favoritesButton: UIButton!
     
     // MARK: - Lifecycle
     
