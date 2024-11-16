@@ -82,14 +82,14 @@ private extension SingleImageViewController {
     }
     
     func rescaleAndCenterImageInScrollView(image: UIImage) {
-        let minZoomScale = imageScrollView.minimumZoomScale
-        let maxZoomScale = imageScrollView.maximumZoomScale
-        
         let imageSize = image.size
         
         guard imageSize.width > 0, imageSize.height > 0 else { return }
         
         let visibleRectSize = imageScrollView.bounds.size
+        let minZoomScale = imageScrollView.minimumZoomScale
+        let maxZoomScale = imageScrollView.maximumZoomScale
+        
         let hScale = visibleRectSize.width / imageSize.width
         let vScale = visibleRectSize.height / imageSize.height
         let scale = min(maxZoomScale, max(minZoomScale, max(hScale, vScale)))
