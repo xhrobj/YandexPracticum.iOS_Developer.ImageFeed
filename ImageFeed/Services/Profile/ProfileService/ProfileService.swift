@@ -10,10 +10,10 @@ import Foundation
 final class ProfileService {
     static let shared = ProfileService.create()
     
-    private(set) var networkClient: NetworkRouting
     private(set) var profile: Profile?
     
     private let oauth2Storage: OAuth2TokenStorageProtocol
+    private let networkClient: NetworkRouting
     private var currentNetworkClientTask: URLSessionDataTask?
     
     private init(networkClient: NetworkRouting, oauth2Storage: OAuth2TokenStorageProtocol) {
@@ -79,12 +79,12 @@ extension ProfileService: ProfileServiceProtocol {
 
 private extension ProfileService {
     func makeGetMyProfileRequest() -> URLRequest? {
-        guard let baseURL = URL(string: ProfileServiceConstants.baseURL) else {
+        guard let baseURL = URL(string: ServiceConstants.baseURL) else {
             return nil
         }
         
         var components = URLComponents()
-        components.path = ProfileServiceConstants.mePath
+        components.path = ServiceConstants.mePath
         
         guard let url = components.url(relativeTo: baseURL) else {
             return nil

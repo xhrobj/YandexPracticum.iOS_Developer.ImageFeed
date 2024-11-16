@@ -10,7 +10,7 @@ import Foundation
 final class OAuth2Service {
     static let shared = OAuth2Service.create()
     
-    private(set) var networkClient: NetworkRouting
+    private let networkClient: NetworkRouting
     private var currentNetworkClientTask: URLSessionDataTask?
     
     private var lastCode: String?

@@ -11,6 +11,7 @@ import Kingfisher
 final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private let profileLogoutService = ProfileLogoutService.shared
     
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage())
@@ -118,10 +119,10 @@ private extension ProfileViewController {
         setupDescriptionLabel()
         setupExitButton()
         
-        avatarImageView.image = UIImage(named: "user_avatar")
-        nameLabel.text = "Екатерина Новикова"
-        loginLabel.text = "@ekaterina_nov"
-        descriptionLabel.text = "Hello, World!"
+        avatarImageView.image = UIImage(named: "profile_placeholder")
+        nameLabel.text = ""
+        loginLabel.text = ""
+        descriptionLabel.text = ""
     }
     
     func setupAvatarImageView() {
@@ -166,8 +167,6 @@ private extension ProfileViewController {
         ])
     }
     
-    // MARK: -
-    
     func updateAvatar() {
         guard let avatarImageURL = avatarImageURL else { return }
         
@@ -178,6 +177,40 @@ private extension ProfileViewController {
         avatarImageView.kf.indicatorType = .activity
         avatarImageView.kf.setImage(with: imageURL)
     }
+    
+    func showAlert() {
+        let alertController = UIAlertController(
+            title: "Пока, пока!",
+            message: "Уверены что хотите выйти?",
+            preferredStyle: .alert
+        )
+        
+        let cancelAction = UIAlertAction(title: "Нет", style: .cancel, handler: nil)
+        let confirmAction = UIAlertAction(title: "Да", style: .destructive) { [weak self] _ in
+            self?.logout()
+        }
+        
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
+    }
+    
+    func logout() {
+        profileLogoutService.logout()
+        showStartScreen()
+    }
+    
+    func showStartScreen() {
+        guard
+            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let window = windowScene.windows.first
+        else {
+            return
+        }
+        
+        window.rootViewController = SplashViewController()
+    }
 }
 
 // MARK: - @objc Actions
@@ -186,6 +219,7 @@ private extension ProfileViewController {
     
     @objc
     func logoutButtonTapped() {
+        showAlert()
     }
     
     @objc

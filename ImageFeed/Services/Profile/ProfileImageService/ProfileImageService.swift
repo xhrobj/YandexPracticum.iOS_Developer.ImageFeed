@@ -13,11 +13,10 @@ final class ProfileImageService {
     
     static let shared = ProfileImageService.create()
     
-    private(set) var networkClient: NetworkRouting
     private(set) var profileImageLink: String?
     
     private let oauth2Storage: OAuth2TokenStorageProtocol
-    
+    private let networkClient: NetworkRouting
     private var currentNetworkClientTask: URLSessionDataTask?
 
     private init(networkClient: NetworkRouting, oauth2Storage: OAuth2TokenStorageProtocol) {
@@ -79,12 +78,12 @@ extension ProfileImageService: ProfileImageServiceProtocol {
 
 private extension ProfileImageService {
     func makeGetMyProfileImageRequest(with username: String) -> URLRequest? {
-        guard let baseURL = URL(string: ProfileServiceConstants.baseURL) else {
+        guard let baseURL = URL(string: ServiceConstants.baseURL) else {
             return nil
         }
         
         var components = URLComponents()
-        components.path = ProfileServiceConstants.usersPath + username
+        components.path.append(contentsOf: ServiceConstants.usersPath + "/" + username)
         
         guard let url = components.url(relativeTo: baseURL) else {
             return nil

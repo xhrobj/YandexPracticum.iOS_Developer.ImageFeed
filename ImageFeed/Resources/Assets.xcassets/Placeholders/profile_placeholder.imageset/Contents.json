@@ -1,12 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "unsplash_logo_white.pdf",
+      "filename" : "profile_placeholder.pdf",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }
