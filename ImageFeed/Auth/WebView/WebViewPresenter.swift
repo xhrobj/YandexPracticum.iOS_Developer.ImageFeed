@@ -24,10 +24,10 @@ extension WebViewPresenter: WebViewPresenterProtocol {
         }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: OAuth2Constants.accessKey),
-            URLQueryItem(name: "redirect_uri", value: OAuth2Constants.redirectURI),
+            URLQueryItem(name: "client_id", value: AuthConfiguration.standard.accessKey),
+            URLQueryItem(name: "redirect_uri", value: AuthConfiguration.standard.redirectURI),
             URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: OAuth2Constants.accessScope)
+            URLQueryItem(name: "scope", value: AuthConfiguration.standard.accessScope)
         ]
         
         guard let url = urlComponents.url else {
@@ -77,6 +77,6 @@ private extension WebViewPresenter {
 
 private extension WebViewPresenter {
     enum Constants {
-        static let unsplashAuthorizeLink = "https://unsplash.com/oauth/authorize"        
+        static let unsplashAuthorizeLink = "https://unsplash.com/oauth/authorize"
     }
 }
