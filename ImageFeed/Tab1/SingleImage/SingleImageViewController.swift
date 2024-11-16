@@ -34,7 +34,6 @@ final class SingleImageViewController: UIViewController {
         super.viewDidLoad()
         
         configureImageScrollView()
-        configureImageView()
         
         loadAndDisplayImage()
     }
@@ -58,17 +57,19 @@ private extension SingleImageViewController {
         imageScrollView.maximumZoomScale = 1.25
     }
     
-    func configureImageView() {
-        self.imageView.contentMode = .scaleAspectFit
+    func configureImageViewWithPlaceholder() {
+        let image = UIImage(named: "feed_image_placeholder") ?? UIImage()
+        
+        imageView.image = image
+        imageView.contentMode = .center
+        imageView.frame.size = image.size
+        
+        rescaleAndCenterImageInScrollView(image: image)
     }
     
     func loadAndDisplayImage() {
         guard let imageURL = self.imageURL else {
-            let image = UIImage(named: "feed_image_placeholder") ?? UIImage()
-            
-            imageView.image = image
-            imageView.frame.size = image.size
-            rescaleAndCenterImageInScrollView(image: image)
+            configureImageViewWithPlaceholder()
             
             return
         }
@@ -81,10 +82,12 @@ private extension SingleImageViewController {
             
             switch result {
             case .success(let imageResult):
+                self.imageView.contentMode = .scaleAspectFit
                 self.imageView.frame.size = imageResult.image.size
                 self.rescaleAndCenterImageInScrollView(image: imageResult.image)
-            case .failure:
-                self.showError()
+            case .failure(let error):
+                self.configureImageViewWithPlaceholder()
+                self.showAlert(for: error, false)
             }
         }
     }
@@ -112,10 +115,12 @@ private extension SingleImageViewController {
         imageScrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
     
-    private func showError() {
+    func showAlert(for error: Error, _ isDisplayError: Bool) {
+        let message = "Попробовать ещё раз?" + (isDisplayError ? "\n\n" + error.localizedDescription : "")
+        
         let alertController = UIAlertController(
             title: "Что-то пошло не так(",
-            message: "Попробовать ещё раз?",
+            message: message,
             preferredStyle: .alert
         )
         
