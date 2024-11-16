@@ -64,7 +64,7 @@ extension ImagesListService: ImagesListServiceProtocol {
             
             switch result {
             case .success(let response):
-                let photos = response.map { Photo($0) }
+                let photos = response.map { PhotoDTO.photo(from: $0) }
                 
                 self.photos.append(contentsOf: photos)
                 self.lastLoadedPageNumber = nextPageNumber
