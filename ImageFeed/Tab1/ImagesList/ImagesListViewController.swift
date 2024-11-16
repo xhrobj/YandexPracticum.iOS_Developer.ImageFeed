@@ -125,8 +125,8 @@ extension ImagesListViewController: ImagesListCellDelegate {
                     size: photo.size,
                     createdAt: photo.createdAt,
                     welcomeDescription: photo.welcomeDescription,
-                    tinyImageLink: photo.tinyImageLink,
-                    largeImageLink: photo.largeImageLink,
+                    tinyImageURL: photo.tinyImageURL,
+                    largeImageURL: photo.largeImageURL,
                     isLiked: !isLiked
                 )
                 
@@ -157,7 +157,7 @@ extension ImagesListViewController {
         }
 
         let photo = photo(for: indexPath)
-        viewController.imageLink = photo.largeImageLink
+        viewController.imageURL = photo.largeImageURL
     }
 }
 
@@ -173,13 +173,9 @@ private extension ImagesListViewController {
     
     func configureCell(_ cell: ImagesListCell, with indexPath: IndexPath) {
         let photo = photo(for: indexPath)
-
-        var dateText = ""
-        if let photoCreatedAt = photo.createdAt {
-            dateText = dateFormatter.string(from: photoCreatedAt)
-        }
-
-        cell.configureCell(with: photo.tinyImageLink, dateText: dateText, isLiked: photo.isLiked)
+        let dateText = photo.createdAt.flatMap { dateFormatter.string(from: $0) } ?? ""
+        
+        cell.configureCell(with: photo.tinyImageURL, dateText: dateText, isLiked: photo.isLiked)
     }
     
     func photo(for indexPath: IndexPath) -> Photo {

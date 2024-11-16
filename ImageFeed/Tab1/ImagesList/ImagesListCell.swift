@@ -37,20 +37,23 @@ final class ImagesListCell: UITableViewCell {
 // MARK: - Class API
 
 extension ImagesListCell {
-    func configureCell(with imageLink: String, dateText: String, isLiked: Bool) {
+    func configureCell(with imageURL: URL?, dateText: String, isLiked: Bool) {
         dateLabel.text = dateText
         favoritesButton.setImage(UIImage(named: favoritesButtonImageName(for: isLiked)), for: .normal)
         
-        let placeholder = UIImage(named: "image_placeholder")
+        let placeholder = UIImage(named: "feed_image_placeholder")
         
         backgroundImageView.contentMode = .center
         backgroundImageView.image = placeholder
         
+        guard let imageURL else { return }
+        
         backgroundImageView.kf.indicatorType = .activity
         backgroundImageView.kf.setImage(
-            with: URL(string: imageLink),
+            with: imageURL,
             placeholder: placeholder
         ) { [weak self] _ in
+            
             guard let self = self else { return }
             
             self.backgroundImageView.contentMode = .scaleAspectFill

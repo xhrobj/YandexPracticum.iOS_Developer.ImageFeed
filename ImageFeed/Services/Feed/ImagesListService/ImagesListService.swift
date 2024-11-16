@@ -109,8 +109,8 @@ extension ImagesListService: ImagesListServiceProtocol {
                         size: photo.size,
                         createdAt: photo.createdAt,
                         welcomeDescription: photo.welcomeDescription,
-                        tinyImageLink: photo.tinyImageLink,
-                        largeImageLink: photo.largeImageLink,
+                        tinyImageURL: photo.tinyImageURL,
+                        largeImageURL: photo.largeImageURL,
                         isLiked: !photo.isLiked)
                 }
                 

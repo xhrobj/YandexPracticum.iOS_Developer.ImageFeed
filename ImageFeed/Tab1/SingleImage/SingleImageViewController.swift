@@ -8,7 +8,7 @@
 import UIKit
 
 final class SingleImageViewController: UIViewController {
-    var imageLink: String?
+    var imageURL: URL?
     
     // MARK: - @IBOutlets
     
@@ -63,7 +63,15 @@ private extension SingleImageViewController {
     }
     
     func loadAndDisplayImage() {
-        guard let imageLink = self.imageLink, let imageURL = URL(string: imageLink) else { return }
+        guard let imageURL = self.imageURL else {
+            let image = UIImage(named: "feed_image_placeholder") ?? UIImage()
+            
+            imageView.image = image
+            imageView.frame.size = image.size
+            rescaleAndCenterImageInScrollView(image: image)
+            
+            return
+        }
         
         UIBlockingProgressHUD.show()
         imageView.kf.setImage(with: imageURL) { [weak self] result in

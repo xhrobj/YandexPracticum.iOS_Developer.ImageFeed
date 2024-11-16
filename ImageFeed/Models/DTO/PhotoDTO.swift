@@ -32,15 +32,18 @@ extension PhotoDTO {
     }()
     
     static func photo(from dto: PhotoDTO) -> Photo {
+        let size = CGSize(width: dto.width, height: dto.height)
         let createdAtDate = dto.createdAt.flatMap { dateFormatter.date(from: $0) }
+        let tinyImageURL = URL(string: dto.urls.thumb)
+        let largeImageURL = URL(string: dto.urls.full)
         
         return Photo(
             id: dto.id,
-            size: CGSize(width: dto.width, height: dto.height),
+            size: size,
             createdAt: createdAtDate,
             welcomeDescription: dto.description,
-            tinyImageLink: dto.urls.thumb,
-            largeImageLink: dto.urls.full,
+            tinyImageURL: tinyImageURL,
+            largeImageURL: largeImageURL,
             isLiked: dto.likedByUser
         )
     }
