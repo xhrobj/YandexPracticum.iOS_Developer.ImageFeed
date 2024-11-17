@@ -40,7 +40,7 @@ extension AuthHelper: AuthHelperProtocol {
 
 // MARK: - Private methods
 
-private extension AuthHelper {
+extension AuthHelper {
     func authURL() -> URL? {
         guard var urlComponents = URLComponents(string: configuration.authLink) else { return nil }
         
