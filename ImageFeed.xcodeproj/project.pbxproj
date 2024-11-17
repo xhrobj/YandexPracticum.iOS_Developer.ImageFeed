@@ -175,8 +175,8 @@
 				6FC5462B2CDBD90C008DFB5C /* Start Here */,
 				6FC546062CD8D79B008DFB5C /* Auth */,
 				6F265F992CE0BF1400D65996 /* TabBarController */,
-				6F265F9A2CE0BF5300D65996 /* Tab1 */,
-				6F265F9B2CE0BF6200D65996 /* Tab2 */,
+				6F265F9A2CE0BF5300D65996 /* Tab1 - Feed */,
+				6F265F9B2CE0BF6200D65996 /* Tab2 - Profile */,
 				6FC546122CDA478C008DFB5C /* Services */,
 				6FC5461D2CDA8588008DFB5C /* Models */,
 				6F265F742CDE21F000D65996 /* Helpers */,
@@ -252,21 +252,21 @@
 			path = TabBarController;
 			sourceTree = "<group>";
 		};
-		6F265F9A2CE0BF5300D65996 /* Tab1 */ = {
+		6F265F9A2CE0BF5300D65996 /* Tab1 - Feed */ = {
 			isa = PBXGroup;
 			children = (
 				6F0DBD0D2B50736100013F72 /* ImagesList */,
 				6FC545F82CD2BB03008DFB5C /* SingleImage */,
 			);
-			path = Tab1;
+			path = "Tab1 - Feed";
 			sourceTree = "<group>";
 		};
-		6F265F9B2CE0BF6200D65996 /* Tab2 */ = {
+		6F265F9B2CE0BF6200D65996 /* Tab2 - Profile */ = {
 			isa = PBXGroup;
 			children = (
-				6FC545F32CD1525D008DFB5C /* Profile */,
+				6FC545F12CD14EC2008DFB5C /* ProfileViewController.swift */,
 			);
-			path = Tab2;
+			path = "Tab2 - Profile";
 			sourceTree = "<group>";
 		};
 		6F4EE2B72CE3DD9F00BC9B50 /* ImagesListService */ = {
@@ -304,14 +304,6 @@
 				6FB5400E2CE68B8E0097F9BA /* ProfileLogoutService.swift */,
 			);
 			path = ProfileLogoutService;
-			sourceTree = "<group>";
-		};
-		6FC545F32CD1525D008DFB5C /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				6FC545F12CD14EC2008DFB5C /* ProfileViewController.swift */,
-			);
-			path = Profile;
 			sourceTree = "<group>";
 		};
 		6FC545F82CD2BB03008DFB5C /* SingleImage */ = {
