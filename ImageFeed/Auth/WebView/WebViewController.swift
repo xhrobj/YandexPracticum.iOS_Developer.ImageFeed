@@ -24,7 +24,6 @@ final class WebViewController: UIViewController {
         super.viewDidLoad()
         
         configureWebView()
-        configureLoadingProgressView()
         
         presenter?.viewDidLoad()
     }
@@ -96,10 +95,6 @@ extension WebViewController: WKNavigationDelegate {
 private extension WebViewController {
     func configureWebView() {
         webView.navigationDelegate = self
-    }
-    
-    func configureLoadingProgressView() {
-        presenter?.didUpdateLoadingProgressValue(0)
     }
     
     func code(from navigationAction: WKNavigationAction) -> String? {

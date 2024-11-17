@@ -5,8 +5,6 @@
 //  Created by Mikhail Eliseev on 04.11.2024.
 //
 
-// NOTE: https://unsplash.com/documentation/user-authentication-workflow
-
 import UIKit
 
 final class AuthViewController: UIViewController {
@@ -37,7 +35,8 @@ extension AuthViewController {
             return
         }
         
-        let webViewPresenter = WebViewPresenter()
+        let authHelper = AuthHelper()
+        let webViewPresenter = WebViewPresenter(authHelper: authHelper)
         webViewPresenter.view = webWiewController
         
         webWiewController.presenter = webViewPresenter
