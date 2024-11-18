@@ -33,6 +33,11 @@ private extension TabBarController {
         }
         
         let profileViewController = ProfileViewController()
+        let profilePresenter = ProfilePresenter()
+        
+        profilePresenter.view = profileViewController
+        profileViewController.presenter = profilePresenter
+
         profileViewController.tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(named: "tab_profile_active"),
