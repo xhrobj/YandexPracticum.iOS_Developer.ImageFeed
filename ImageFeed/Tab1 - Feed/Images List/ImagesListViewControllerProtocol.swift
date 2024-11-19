@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ImagesListViewControllerProtocol: AnyObject {
+public protocol ImagesListViewControllerProtocol: AnyObject {
     var presenter: ImagesListPresenterProtocol? { get set }
     
     func addPhotos(fromIndex: Int, toIndex: Int)

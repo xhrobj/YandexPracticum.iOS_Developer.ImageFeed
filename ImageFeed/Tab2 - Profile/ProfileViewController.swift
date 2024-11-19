@@ -152,7 +152,7 @@ private extension ProfileViewController {
 
 // MARK: - @objc Actions
 
-private extension ProfileViewController {
+extension ProfileViewController {
     
     @objc
     func logoutButtonTapped() {

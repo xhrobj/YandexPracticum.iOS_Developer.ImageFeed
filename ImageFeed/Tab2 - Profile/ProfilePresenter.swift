@@ -63,12 +63,6 @@ private extension ProfilePresenter {
         updateAvatar()
     }
     
-    func updateAvatar() {
-        guard let avatarImageURL = avatarImageURL else { return }
-        
-        view?.displayAvatar(imageURL: avatarImageURL)
-    }
-    
     func showStartScreen() {
         guard
             let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
@@ -78,6 +72,14 @@ private extension ProfilePresenter {
         }
         
         window.rootViewController = SplashViewController()
+    }
+}
+
+extension ProfilePresenter {
+    func updateAvatar() {
+        guard let avatarImageURL = avatarImageURL else { return }
+        
+        view?.displayAvatar(imageURL: avatarImageURL)
     }
 }
 

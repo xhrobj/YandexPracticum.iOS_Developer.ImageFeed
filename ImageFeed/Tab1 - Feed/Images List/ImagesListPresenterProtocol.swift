@@ -5,7 +5,7 @@
 //  Created by Mikhail Eliseev on 18.11.2024.
 //
 
-protocol ImagesListPresenterProtocol: AnyObject {
+public protocol ImagesListPresenterProtocol: AnyObject {
     var view: ImagesListViewControllerProtocol? { get set }
     var numberOfPhotos: Int { get }
     

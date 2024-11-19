@@ -9,7 +9,7 @@
 
 import XCTest
 
-final class WebViewTests: XCTestCase  {
+final class WebViewTests: XCTestCase {
     
     func testViewControllerCallsViewDidLoad() {
         //given
