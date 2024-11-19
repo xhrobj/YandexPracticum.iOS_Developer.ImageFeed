@@ -30,25 +30,14 @@ extension ProfilePresenter: ProfilePresenterProtocol {
         updateProfile()
     }
     
-    func addObservers() {
-        NotificationCenter.default
-            .addObserver(
-                self,
-                selector: #selector(updateAvatar(notification:)),
-                name: ProfileImageService.didChangeAvatarImageLinkNotification,
-                object: nil
-            )
+    func viewWillAppear() {
+        addObservers()
     }
     
-    func removeObservers() {
-        NotificationCenter.default
-            .removeObserver(
-                self,
-                name: ProfileImageService.didChangeAvatarImageLinkNotification,
-                object: nil
-            )
+    func viewWillDisappear() {
+        removeObservers()
     }
-    
+
     func didLogoutButtonTap() {
         view?.showLogoutConfirmation()
     }
@@ -56,22 +45,6 @@ extension ProfilePresenter: ProfilePresenterProtocol {
     func logout() {
         profileLogoutService.logout()
         showStartScreen()
-    }
-}
-
-// MARK: - @objc Actions
-
-private extension ProfilePresenter {
-    
-    @objc
-    func updateAvatar(notification: Notification) {
-        guard
-            let userInfo = notification.userInfo,
-            let profileImageLink = userInfo[ProfileImageService.notificationAvatarImageLinkKey] as? String,
-            let avatarImageURL = URL(string: profileImageLink)
-        else { return }
-        
-        view?.displayAvatar(imageURL: avatarImageURL)
     }
 }
 
@@ -105,5 +78,44 @@ private extension ProfilePresenter {
         }
         
         window.rootViewController = SplashViewController()
+    }
+}
+
+// MARK: - Notifications
+
+private extension ProfilePresenter {
+    func addObservers() {
+        NotificationCenter.default
+            .addObserver(
+                self,
+                selector: #selector(updateAvatar(notification:)),
+                name: ProfileImageService.didChangeAvatarImageLinkNotification,
+                object: nil
+            )
+    }
+
+    func removeObservers() {
+        NotificationCenter.default
+            .removeObserver(
+                self,
+                name: ProfileImageService.didChangeAvatarImageLinkNotification,
+                object: nil
+            )
+    }
+}
+
+// MARK: - @objc Actions
+
+private extension ProfilePresenter {
+    
+    @objc
+    func updateAvatar(notification: Notification) {
+        guard
+            let userInfo = notification.userInfo,
+            let profileImageLink = userInfo[ProfileImageService.notificationAvatarImageLinkKey] as? String,
+            let avatarImageURL = URL(string: profileImageLink)
+        else { return }
+        
+        view?.displayAvatar(imageURL: avatarImageURL)
     }
 }

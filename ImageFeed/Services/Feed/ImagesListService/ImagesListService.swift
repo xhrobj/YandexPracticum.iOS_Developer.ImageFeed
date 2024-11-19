@@ -80,12 +80,12 @@ extension ImagesListService: ImagesListServiceProtocol {
     // NOTE: https://unsplash.com/documentation#like-a-photo
     // NOTE: https://unsplash.com/documentation#unlike-a-photo
     
-    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, any Error>) -> Void) {
+    func changeLike(photoId: String, isLiked: Bool, _ completion: @escaping (Result<Void, any Error>) -> Void) {
         assert(Thread.isMainThread)
         
         guard currentNetworkClientChangeLikeTask == nil else { return }
         
-        guard let request = makeChangeLiketRequest(with: photoId, isLike) else {
+        guard let request = makeChangeLiketRequest(with: photoId, isLiked) else {
             let error = ServiceError.invalidURL
             print("[ImagesListService/changeLike]: ServiceError ->", error.localizedDescription)
             

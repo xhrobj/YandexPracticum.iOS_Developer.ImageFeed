@@ -9,9 +9,8 @@ protocol ProfilePresenterProtocol {
     var view: ProfileViewControllerProtocol? { get set }
     
     func viewDidLoad()
-    
-    func addObservers()
-    func removeObservers()
+    func viewWillAppear()
+    func viewWillDisappear()
     
     func didLogoutButtonTap()
     func logout()

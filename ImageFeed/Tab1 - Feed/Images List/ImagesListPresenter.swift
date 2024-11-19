@@ -77,7 +77,7 @@ private extension ImagesListPresenter {
 
     func changeLike(for photoId: String, isLiked: Bool) {
         UIBlockingProgressHUD.show()
-        imagesListService.changeLike(photoId: photoId, isLike: isLiked) { [weak self] result in
+        imagesListService.changeLike(photoId: photoId, isLiked: isLiked) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
 
             guard let self = self else { return }
@@ -111,7 +111,7 @@ private extension ImagesListPresenter {
 // MARK: - Notifications
 
 private extension ImagesListPresenter {
-    private func addObservers() {
+    func addObservers() {
         NotificationCenter.default
             .addObserver(
                 self,
@@ -121,7 +121,7 @@ private extension ImagesListPresenter {
             )
     }
     
-    private func removeObservers() {
+    func removeObservers() {
         NotificationCenter.default
             .removeObserver(
                 self,
