@@ -32,6 +32,11 @@ private extension TabBarController {
             return
         }
         
+        let imagesListPresenter = ImagesListPresenter()
+        
+        imagesListPresenter.view = imagesListViewController
+        imagesListViewController.presenter = imagesListPresenter
+        
         let profileViewController = ProfileViewController()
         let profilePresenter = ProfilePresenter()
         
