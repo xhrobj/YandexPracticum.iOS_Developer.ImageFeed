@@ -26,10 +26,10 @@ final class ProfileTests: XCTestCase {
         XCTAssertTrue(presenter.viewDidLoadCalled, "Метод viewDidLoad() у презентера не был вызван")
     }
     
-    func testViewControllerShowsLogoutConfirmation() {
+    func testViewControllerCallsDidLogoutButtonTap() {
         // given
-        let presenter = ProfilePresenterSpy()
         let viewController = ProfileViewController()
+        let presenter = ProfilePresenterSpy()
         
         presenter.view = viewController
         viewController.presenter = presenter
@@ -39,5 +39,20 @@ final class ProfileTests: XCTestCase {
         
         // then
         XCTAssertTrue(presenter.didLogoutButtonTapCalled, "Метод didLogoutButtonTap() у презентера не был вызван")
+    }
+    
+    func testViewControllerShowsLogoutConfirmation() {
+        // given
+        let viewController = ProfileViewControllerSpy()
+        let presenter = ProfilePresenter()
+        
+        presenter.view = viewController
+        viewController.presenter = presenter
+        
+        // when
+        presenter.didLogoutButtonTap()
+        
+        // then
+        XCTAssertTrue(viewController.showLogoutConfirmationCalled, "Метод showLogoutConfirmation() у вью не был вызван")
     }
 }

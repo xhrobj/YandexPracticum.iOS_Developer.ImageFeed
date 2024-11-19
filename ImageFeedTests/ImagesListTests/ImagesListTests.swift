@@ -12,6 +12,7 @@ import XCTest
 final class ImagesListTests: XCTestCase {
     
     func testViewControllerCallsViewDidLoad() {
+        // given
         let viewController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "ImagesListVCStoryboardID") as! ImagesListViewController
         
@@ -25,5 +26,22 @@ final class ImagesListTests: XCTestCase {
         
         // then
         XCTAssertTrue(presenter.viewDidLoadCalled, "Метод viewDidLoad() у презентера не был вызван")
+    }
+
+    func testViewPresenterCallsShowSingleImage() {
+        // given
+        let viewController = ImagesListViewControllerSpy()
+        let presenter = ImagesListPresenter()
+        
+        viewController.presenter = presenter
+        presenter.view = viewController
+        
+        presenter.photos = [ImageFeed.Photo.mock()]
+
+        // when
+        presenter.didPhotoTap(at: 0)
+
+        // then
+        XCTAssertTrue(viewController.showSingleImageCalled, "Метод showSingleImageCalled() у вью не был вызван")
     }
 }

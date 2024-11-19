@@ -18,7 +18,7 @@ final class ImagesListPresenter {
     
     private let imagesListService = ImagesListService.shared
     
-    private var photos: [Photo] = []
+    var photos: [Photo] = []
 }
 
 // MARK: - <ImagesListPresenterProtocol>
