@@ -76,7 +76,7 @@ private extension SplashViewController {
             fetchProfile()
             return
         }
-
+        
         switchToTabBarController()
     }
     

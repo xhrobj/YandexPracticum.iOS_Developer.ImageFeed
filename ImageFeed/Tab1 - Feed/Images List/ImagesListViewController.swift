@@ -113,6 +113,12 @@ extension ImagesListViewController: UITableViewDelegate {
         else {
             return
         }
+        
+        let testMode = ProcessInfo.processInfo.arguments.contains("testMode")
+        guard !testMode else {
+            print("(•_•) test_mode is on, skipping fetching more photos")
+            return
+        }
 
         presenter?.didReachEndOfFeed()
     }
