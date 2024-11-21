@@ -11,5 +11,5 @@ protocol ImagesListServiceProtocol {
     var photos: [Photo] { get }
 
     func fetchPhotosNextPage()
-    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, any Error>) -> Void)
+    func changeLike(photoId: String, isLiked: Bool, _ completion: @escaping (Result<Void, any Error>) -> Void)
 }

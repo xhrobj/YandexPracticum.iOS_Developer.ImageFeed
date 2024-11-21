@@ -5,8 +5,6 @@
 //  Created by Mikhail Eliseev on 04.11.2024.
 //
 
-// NOTE: https://unsplash.com/documentation/user-authentication-workflow
-
 import UIKit
 
 final class AuthViewController: UIViewController {
@@ -32,12 +30,17 @@ extension AuthViewController {
             return
         }
 
-        guard let viewController = segue.destination as? WebViewController else {
+        guard let webWiewController = segue.destination as? WebViewController else {
             assertionFailure("(•_•) Failed to prepare for \(segue.identifier ?? "¯∖_(ツ)_/¯")")
             return
         }
-
-        viewController.delegate = self
+        
+        let authHelper = AuthHelper()
+        let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+        webViewPresenter.view = webWiewController
+        
+        webWiewController.presenter = webViewPresenter
+        webWiewController.delegate = self
     }
 }
 

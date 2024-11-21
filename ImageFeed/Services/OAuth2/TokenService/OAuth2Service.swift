@@ -80,9 +80,9 @@ private extension OAuth2Service {
         var components = URLComponents()
         components.path = Constants.tokenPath
         components.queryItems = [
-            URLQueryItem(name: "client_id", value: OAuth2Constants.accessKey),
-            URLQueryItem(name: "client_secret", value: OAuth2Constants.secretKey),
-            URLQueryItem(name: "redirect_uri", value: OAuth2Constants.redirectURI),
+            URLQueryItem(name: "client_id", value: AuthConfiguration.standard.accessKey),
+            URLQueryItem(name: "client_secret", value: AuthConfiguration.standard.secretKey),
+            URLQueryItem(name: "redirect_uri", value: AuthConfiguration.standard.redirectURI),
             URLQueryItem(name: "grant_type", value: "authorization_code"),
             URLQueryItem(name: "code", value: code)
         ]

@@ -10,4 +10,6 @@ enum OAuth2Constants {
     static let secretKey = "XFjoObaqZDGTzG6rBEYseZg5-IEJwfEM_ShrUKRanws"
     static let redirectURI = "urn:ietf:wg:oauth:2.0:oob"
     static let accessScope = "public+read_user+write_likes"
+    
+    static let unsplashAuthorizeLink = "https://unsplash.com/oauth/authorize"
 }

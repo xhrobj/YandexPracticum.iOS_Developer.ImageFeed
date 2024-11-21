@@ -9,10 +9,8 @@ import UIKit
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
-    private let profileService = ProfileService.shared
-    private let profileImageService = ProfileImageService.shared
-    private let profileLogoutService = ProfileLogoutService.shared
-    
+    var presenter: ProfilePresenterProtocol?
+
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage())
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -59,51 +57,37 @@ final class ProfileViewController: UIViewController {
         button.tintColor = UIColor(named: "YP Red")
         button.translatesAutoresizingMaskIntoConstraints = false
         
+        button.accessibilityIdentifier = "logoutButton"
+        
         return button
     }()
-    
-    private var avatarImageURL: URL? {
-        let imageLink = profileImageService.profileImageLink
-        
-        guard let imageLink else { return nil}
-        
-        return URL(string: imageLink)
-    }
-    
+
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureView()
-        configureView(with: profileService.profile)
-        updateAvatar()
+        
+        presenter?.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        addObservers()
+        presenter?.viewWillAppear()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        removeObservers()
+        presenter?.viewWillDisappear()
     }
 }
 
 // MARK: - Private methods
 
 private extension ProfileViewController {
-    func configureView(with profile: Profile?) {
-        guard let profile else { return }
-        
-        nameLabel.text = profile.fullName
-        loginLabel.text = profile.loginName
-        descriptionLabel.text = profile.bio
-    }
-    
     func configureView() {
         view.backgroundColor = UIColor(named: "YP Black")
         
@@ -166,19 +150,33 @@ private extension ProfileViewController {
             exitButton.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor)
         ])
     }
+}
+
+// MARK: - @objc Actions
+
+extension ProfileViewController {
     
-    func updateAvatar() {
-        guard let avatarImageURL = avatarImageURL else { return }
-        
-        updateAvatar(with: avatarImageURL)
+    @objc
+    func logoutButtonTapped() {
+        presenter?.didLogoutButtonTap()
+    }
+}
+
+// MARK: - <ProfileViewControllerProtocol>
+
+extension ProfileViewController: ProfileViewControllerProtocol {
+    func displayProfile(name: String, login: String, description: String) {
+        nameLabel.text = name
+        loginLabel.text = login
+        descriptionLabel.text = description
     }
     
-    func updateAvatar(with imageURL: URL) {
+    func displayAvatar(imageURL: URL) {
         avatarImageView.kf.indicatorType = .activity
         avatarImageView.kf.setImage(with: imageURL)
     }
     
-    func showAlert() {
+    func showLogoutConfirmation() {
         let alertController = UIAlertController(
             title: "Пока, пока!",
             message: "Уверены что хотите выйти?",
@@ -187,72 +185,12 @@ private extension ProfileViewController {
         
         let cancelAction = UIAlertAction(title: "Нет", style: .cancel, handler: nil)
         let confirmAction = UIAlertAction(title: "Да", style: .destructive) { [weak self] _ in
-            self?.logout()
+            self?.presenter?.logout()
         }
         
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true)
-    }
-    
-    func logout() {
-        profileLogoutService.logout()
-        showStartScreen()
-    }
-    
-    func showStartScreen() {
-        guard
-            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-            let window = windowScene.windows.first
-        else {
-            return
-        }
-        
-        window.rootViewController = SplashViewController()
-    }
-}
-
-// MARK: - @objc Actions
-
-private extension ProfileViewController {
-    
-    @objc
-    func logoutButtonTapped() {
-        showAlert()
-    }
-    
-    @objc
-    func updateAvatar(notification: Notification) {
-        guard
-            let userInfo = notification.userInfo,
-            let profileImageLink = userInfo[ProfileImageService.notificationAvatarImageLinkKey] as? String,
-            let avatarImageURL = URL(string: profileImageLink)
-        else { return }
-        
-        updateAvatar(with: avatarImageURL)
-    }
-}
-
-// MARK: - Notifications
-
-private extension ProfileViewController {
-    private func addObservers() {
-        NotificationCenter.default
-            .addObserver(
-                self,
-                selector: #selector(updateAvatar(notification:)),
-                name: ProfileImageService.didChangeAvatarImageLinkNotification,
-                object: nil
-            )
-    }
-       
-    private func removeObservers() {
-        NotificationCenter.default
-            .removeObserver(
-                self,
-                name: ProfileImageService.didChangeAvatarImageLinkNotification,
-                object: nil
-            )
     }
 }
