@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol WebViewControllerProtocol: AnyObject {
+protocol WebViewControllerProtocol: AnyObject {
     var presenter: WebViewPresenterProtocol? { get set }
     
     func load(request: URLRequest)

@@ -5,6 +5,8 @@
 //  Created by Mikhail Eliseev on 17.11.2024.
 //
 
+@testable import ImageFeed
+
 import ImageFeed
 
 import Foundation

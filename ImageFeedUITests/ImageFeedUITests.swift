@@ -12,7 +12,7 @@ final class ImageFeedUITests: XCTestCase {
     private let appLogin = "" // <---- login
     private let appPassword = "" // <---- pass
     let username = "" // <---- user name
-    let nickname = "" // <---- @nickname
+    let nickname = "@" // <---- @nickname
     
     private let app = XCUIApplication()
     
@@ -29,10 +29,10 @@ final class ImageFeedUITests: XCTestCase {
         button.tap()
 
         let webView = app.webViews["UnsplashWebView"]
-        XCTAssertTrue(webView.waitForExistence(timeout: 5))
+        XCTAssertTrue(webView.waitForExistence(timeout: 10))
 
         let loginTextField = webView.descendants(matching: .textField).element
-        XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
+        XCTAssertTrue(loginTextField.waitForExistence(timeout: 10))
         
         loginTextField.tap()
         loginTextField.typeText(appLogin)

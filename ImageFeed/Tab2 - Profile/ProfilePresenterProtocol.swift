@@ -5,7 +5,7 @@
 //  Created by Mikhail Eliseev on 17.11.2024.
 //
 
-public protocol ProfilePresenterProtocol {
+protocol ProfilePresenterProtocol {
     var view: ProfileViewControllerProtocol? { get set }
     
     func viewDidLoad()

@@ -8,7 +8,7 @@
 import Foundation
 import CoreGraphics
 
-public struct Photo {
+struct Photo {
     let id: String
     let size: CGSize
     let createdAt: Date?
@@ -19,7 +19,7 @@ public struct Photo {
 }
 
 extension Photo {
-    public static func mock(
+    static func mock(
         id: String = UUID().uuidString,
         size: CGSize = CGSize(width: 100, height: 200),
         createdAt: Date? = Date(),
